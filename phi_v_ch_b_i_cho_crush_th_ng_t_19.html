@@ -1,0 +1,2776 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Phi Vụ Chỉ Bài Cho Crush: Thông Tư 19</title>
+  <style>
+    /* ==================== DESIGN TOKENS & GLOBAL RESET ==================== */
+    :root {
+      --bg-dark: #0f172a;
+      --surface-dark: #1e293b;
+      --border-dark: #334155;
+      --pink-primary: #ec4899;
+      --pink-dark: #be185d;
+      --pink-soft: #fdf2f8;
+      --safe-green: #10b981;
+      --warn-amber: #f59e0b;
+      --danger-red: #ef4444;
+      --gold-accent: #fde047;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: var(--font-sans);
+      background-color: var(--bg-dark);
+      color: #f8fafc;
+      user-select: none;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    kbd {
+      display: inline-block;
+      padding: 2px 7px;
+      font-size: 11px;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      border-radius: 6px;
+      background: #f1f5f9;
+      color: #0f172a;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 2px 0 #94a3b8;
+    }
+
+    /* ==================== KEYFRAME ANIMATIONS ==================== */
+    @keyframes spinFan {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes teacherWrite {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      25% { transform: translateY(-2px) rotate(-1.5deg); }
+      75% { transform: translateY(-1px) rotate(1.5deg); }
+    }
+
+    @keyframes chalkHandMove {
+      0%, 100% { transform: translate(0, 0) rotate(-25deg); }
+      50% { transform: translate(8px, -6px) rotate(-15deg); }
+    }
+
+    @keyframes badgeBounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-7px) scale(1.12); }
+    }
+
+    @keyframes screenShake {
+      0%, 100% { transform: translate(0, 0); }
+      15% { transform: translate(-10px, 6px); }
+      30% { transform: translate(10px, -6px); }
+      45% { transform: translate(-8px, -4px); }
+      60% { transform: translate(8px, 5px); }
+      75% { transform: translate(-5px, -2px); }
+    }
+
+    @keyframes toastSlideDown {
+      0% { opacity: 0; transform: translate(-50%, -22px) scale(0.95); }
+      100% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+    }
+
+    @keyframes floatDelta {
+      0% { opacity: 1; transform: translate(-50%, 0) scale(0.85); }
+      25% { opacity: 1; transform: translate(-50%, -10px) scale(1.12); }
+      100% { opacity: 0; transform: translate(-50%, -34px) scale(1); }
+    }
+
+    @keyframes popBubbleIn {
+      0% { opacity: 0; transform: translateY(14px) scale(0.96); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .shake-active {
+      animation: screenShake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
+
+    /* ==================== OVERLAY SCREENS (START / NAME SETUP / STORY CHAT) ==================== */
+    .overlay-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      background: radial-gradient(circle at top, #1e1b4b 0%, #0f172a 65%, #020617 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      overflow-y: auto;
+    }
+
+    /* SCREEN 1: TITLE START SCREEN */
+    .title-card {
+      width: 100%;
+      max-width: 680px;
+      background: linear-gradient(145deg, #064e3b 0%, #065f46 48%, #1e1b4b 100%);
+      border: 4px solid #92400e;
+      border-radius: 28px;
+      padding: 34px 26px;
+      text-align: center;
+      box-shadow: 0 28px 65px rgba(0, 0, 0, 0.72), inset 0 2px 18px rgba(0, 0, 0, 0.4);
+      animation: popBubbleIn 0.25s ease-out forwards;
+    }
+
+    .title-pill {
+      display: inline-block;
+      padding: 6px 15px;
+      border-radius: 999px;
+      background: rgba(236, 72, 153, 0.25);
+      border: 1.5px solid rgba(249, 168, 212, 0.7);
+      color: #fbcfe8;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      margin-bottom: 14px;
+    }
+
+    .main-game-title {
+      margin: 0 0 12px;
+      font-size: clamp(24px, 4.5vw, 38px);
+      font-weight: 900;
+      line-height: 1.2;
+      color: #ffffff;
+      text-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+    }
+
+    .main-game-title span {
+      color: #fde047;
+      display: block;
+      margin-top: 4px;
+    }
+
+    .title-subtext {
+      margin: 0 auto 24px;
+      max-width: 520px;
+      font-size: 14.5px;
+      line-height: 1.55;
+      color: #e2e8f0;
+    }
+
+    .btn-primary-pink {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      max-width: 380px;
+      padding: 16px 26px;
+      border: none;
+      border-radius: 18px;
+      background: linear-gradient(90deg, #ec4899 0%, #f43f5e 100%);
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      box-shadow: 0 14px 28px -6px rgba(236, 72, 153, 0.6);
+      transition: transform 0.15s ease, filter 0.15s ease;
+    }
+
+    .btn-primary-pink:hover {
+      filter: brightness(1.08);
+    }
+
+    .btn-primary-pink:active {
+      transform: scale(0.98);
+    }
+
+    /* SCREEN 2: NAME INPUT MODAL */
+    .setup-card {
+      width: 100%;
+      max-width: 500px;
+      background: #ffffff;
+      color: #0f172a;
+      border-radius: 26px;
+      padding: 26px 24px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65), 0 0 0 3px rgba(236, 72, 153, 0.45);
+      animation: popBubbleIn 0.22s ease-out forwards;
+    }
+
+    .setup-heading {
+      margin: 0 0 6px;
+      font-size: 22px;
+      font-weight: 900;
+      color: #0f172a;
+      text-align: center;
+    }
+
+    .setup-desc {
+      margin: 0 0 20px;
+      font-size: 13.5px;
+      color: #475569;
+      text-align: center;
+    }
+
+    .input-group {
+      margin-bottom: 16px;
+    }
+
+    .input-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 800;
+      color: #1e293b;
+      margin-bottom: 6px;
+    }
+
+    .text-input {
+      width: 100%;
+      padding: 13px 15px;
+      border-radius: 14px;
+      border: 2px solid #cbd5e1;
+      background: #f8fafc;
+      color: #0f172a;
+      font-size: 15px;
+      font-weight: 700;
+      font-family: var(--font-sans);
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .text-input:focus {
+      border-color: #ec4899;
+      background: #ffffff;
+      box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.18);
+    }
+
+    /* SCREEN 3: STEP-BY-STEP POP-UP CHAT & THOUGHT DIALOGUE */
+    .story-phone-modal {
+      width: 100%;
+      max-width: 540px;
+      background: #18181b;
+      border: 3px solid #3f3f46;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 28px 65px rgba(0, 0, 0, 0.8), 0 0 0 2px rgba(236, 72, 153, 0.35);
+      display: flex;
+      flex-direction: column;
+      max-height: 90vh;
+      animation: popBubbleIn 0.22s ease-out forwards;
+    }
+
+    .story-modal-header {
+      background: linear-gradient(90deg, #831843 0%, #9d174d 100%);
+      padding: 13px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(244, 114, 182, 0.35);
+    }
+
+    .story-step-pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.6);
+      color: #fde047;
+      font-size: 12px;
+      font-weight: 800;
+      font-family: var(--font-mono);
+    }
+
+    .story-dialogue-feed {
+      padding: 16px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 290px;
+      max-height: 55vh;
+      background: #121215;
+    }
+
+    .dialogue-beat {
+      max-width: 88%;
+      padding: 11px 14px;
+      border-radius: 18px;
+      font-size: 14px;
+      line-height: 1.48;
+      animation: popBubbleIn 0.24s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .dialogue-beat.crush-chat {
+      align-self: flex-start;
+      background: #272027;
+      border: 1.5px solid rgba(236, 72, 153, 0.5);
+      color: #fce7f3;
+      border-bottom-left-radius: 4px;
+    }
+
+    .dialogue-beat.player-thought {
+      align-self: center;
+      max-width: 94%;
+      background: rgba(30, 41, 59, 0.92);
+      border: 1.5px dashed #94a3b8;
+      color: #e2e8f0;
+      font-style: italic;
+      border-radius: 18px;
+    }
+
+    .dialogue-beat.player-chat {
+      align-self: flex-end;
+      background: linear-gradient(135deg, #ec4899, #db2777);
+      color: #ffffff;
+      font-weight: 700;
+      border-bottom-right-radius: 4px;
+    }
+
+    .beat-sender {
+      font-size: 12px;
+      font-weight: 900;
+      margin-bottom: 4px;
+      display: block;
+      font-style: normal;
+    }
+
+    .story-modal-footer {
+      background: #18181b;
+      padding: 14px 16px;
+      border-top: 1px solid #27272a;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn-next-beat {
+      width: 100%;
+      padding: 13px 18px;
+      border: 1.5px solid #ec4899;
+      border-radius: 14px;
+      background: rgba(236, 72, 153, 0.2);
+      color: #fbcfe8;
+      font-size: 15px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: background 0.14s ease, transform 0.14s ease;
+    }
+
+    .btn-next-beat:hover {
+      background: rgba(236, 72, 153, 0.34);
+    }
+
+    .btn-next-beat:active {
+      transform: scale(0.98);
+    }
+
+    /* ==================== MAIN GAMEPLAY SCREEN (100VH POV) ==================== */
+    #game-screen {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* TOP HUD + PATROL BAR WRAPPER (HIGHEST Z-INDEX = 65 SO TALL PHONE NEVER COVERS IT!) */
+    .top-sticky-hud {
+      position: relative;
+      z-index: 65;
+      flex: 0 0 auto;
+      background: #0f172a;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.55);
+    }
+
+    .hud-bar {
+      min-height: 48px;
+      border-bottom: 1px solid #1e293b;
+      padding: 5px 12px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .hud-group {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .hud-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: 11px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      font-size: 12.5px;
+      font-weight: 700;
+      white-space: nowrap;
+      position: relative;
+    }
+
+    .timer-display {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 900;
+      color: #fde047;
+    }
+
+    .timer-display.urgent {
+      color: #fb7185;
+    }
+
+    /* Crush Affection Pill in HUD */
+    .affection-pill {
+      background: rgba(131, 24, 67, 0.65);
+      border: 1.5px solid #ec4899;
+      padding: 5px 11px;
+    }
+
+    .affection-mini-track {
+      width: 58px;
+      height: 8px;
+      background: rgba(15, 23, 42, 0.85);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid rgba(244, 114, 182, 0.45);
+    }
+
+    .affection-mini-fill {
+      height: 100%;
+      width: 75%;
+      background: linear-gradient(90deg, #f43f5e, #ec4899, #f472b6);
+      border-radius: 999px;
+      transition: width 0.25s ease;
+    }
+
+    .floating-delta-badge {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-top: 4px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 900;
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 95;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.45);
+      animation: floatDelta 1.15s ease-out forwards;
+    }
+
+    .floating-delta-badge.loss {
+      background: #be123c;
+      color: #ffffff;
+      border: 1.5px solid #fda4af;
+    }
+
+    .floating-delta-badge.gain {
+      background: #047857;
+      color: #ffffff;
+      border: 1.5px solid #6ee7b7;
+    }
+
+    .btn-mute {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      border: 1px solid #334155;
+      background: #1e293b;
+      color: #f8fafc;
+      font-size: 15px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-mute:hover {
+      background: #334155;
+    }
+
+    /* PATROL PROGRESS BAR */
+    .patrol-bar-wrapper {
+      background: #020617;
+      padding: 6px 14px 7px;
+      border-bottom: 2px solid #1e293b;
+    }
+
+    .patrol-bar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 4px;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .patrol-status-text.safe { color: #34d399; }
+    .patrol-status-text.warning { color: #fbbf24; }
+    .patrol-status-text.danger { color: #f87171; }
+
+    .patrol-countdown-num {
+      font-family: var(--font-mono);
+      font-size: 13.5px;
+      font-weight: 900;
+    }
+
+    .patrol-track {
+      width: 100%;
+      height: 12px;
+      background: #1e293b;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid #334155;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .patrol-fill {
+      height: 100%;
+      width: 100%;
+      border-radius: 999px;
+      transition: background-color 0.15s ease;
+    }
+
+    .patrol-fill.safe {
+      background: linear-gradient(90deg, #059669, #34d399);
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.55);
+    }
+
+    .patrol-fill.warning {
+      background: linear-gradient(90deg, #d97706, #fbbf24);
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.75);
+    }
+
+    .patrol-fill.danger {
+      background: linear-gradient(90deg, #b91c1c, #ef4444);
+      box-shadow: 0 0 14px rgba(239, 68, 68, 0.85);
+    }
+
+    /* CLASSROOM VIEWPORT (Z-INDEX 10 SO TALL PHONE AT Z-INDEX 48 COVERS THE TEACHER!) */
+    #classroom-viewport {
+      flex: 0 0 43vh;
+      height: 43vh;
+      min-height: 215px;
+      position: relative;
+      z-index: 10;
+      overflow: hidden;
+      background: #cbd5e1;
+      border-bottom: 5px solid #451a03;
+    }
+
+    .red-flash-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle, rgba(239, 68, 68, 0.25) 0%, rgba(220, 38, 38, 0.72) 100%);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.18s ease;
+      z-index: 15;
+    }
+
+    .red-flash-overlay.flash {
+      opacity: 1;
+    }
+
+    .fan-blades {
+      transform-origin: 0px 0px;
+      animation: spinFan 1.4s linear infinite;
+    }
+
+    .teacher-writing-anim {
+      animation: teacherWrite 1.1s ease-in-out infinite;
+    }
+
+    .chalk-arm-anim {
+      animation: chalkHandMove 0.75s ease-in-out infinite;
+    }
+
+    .alert-badge-anim {
+      animation: badgeBounce 0.45s ease-in-out infinite;
+    }
+
+    /* Non-blocking Dramatic Catch Toast Banner */
+    #catch-toast {
+      position: fixed;
+      top: 96px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 90;
+      width: min(92vw, 620px);
+      padding: 12px 18px;
+      border-radius: 16px;
+      background: #991b1b;
+      color: #ffffff;
+      border: 2px solid #fca5a5;
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.65);
+      font-size: 13.5px;
+      font-weight: 800;
+      text-align: center;
+      line-height: 1.42;
+      animation: toastSlideDown 0.22s ease-out forwards;
+    }
+
+    #catch-toast.warn-1 {
+      background: #9a3412;
+      border-color: #fdba74;
+    }
+
+    #catch-toast.warn-2 {
+      background: #b91c1c;
+      border-color: #fca5a5;
+    }
+
+    #catch-toast.warn-3 {
+      background: #4c0519;
+      border-color: #fb7185;
+    }
+
+    /* LOWER VIEWPORT: WOODEN DESK */
+    .desk-viewport {
+      flex: 1 1 auto;
+      position: relative;
+      z-index: 20;
+      background:
+        radial-gradient(ellipse at center, rgba(251, 191, 36, 0.14) 0%, rgba(0, 0, 0, 0.35) 100%),
+        repeating-linear-gradient(
+          90deg,
+          rgba(69, 26, 3, 0.1) 0px,
+          rgba(69, 26, 3, 0.1) 2px,
+          transparent 2px,
+          transparent 28px
+        ),
+        linear-gradient(180deg, #92400e 0%, #78350f 55%, #451a03 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 14px;
+    }
+
+    /* CENTERED HIDDEN-STATE DOCK ON WOODEN DESK */
+    .centered-hidden-dock {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      max-width: 450px;
+      padding: 18px 20px;
+      border-radius: 24px;
+      background: rgba(15, 23, 42, 0.82);
+      backdrop-filter: blur(6px);
+      border: 2px solid rgba(244, 114, 182, 0.5);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.55);
+      text-align: center;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+    }
+
+    .centered-hidden-dock.dock-hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.95);
+    }
+
+    .mini-wait-box {
+      width: 100%;
+      background: rgba(30, 41, 59, 0.92);
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 10px 12px;
+    }
+
+    .mini-wait-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #fbcfe8;
+      margin-bottom: 6px;
+    }
+
+    .wait-track {
+      width: 100%;
+      height: 10px;
+      background: #09090b;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid #3f3f46;
+    }
+
+    .wait-fill {
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(90deg, #ec4899, #f472b6);
+      border-radius: 999px;
+      transition: background 0.2s ease;
+    }
+
+    .wait-fill.urgent {
+      background: linear-gradient(90deg, #dc2626, #f59e0b);
+    }
+
+    .btn-open-center-phone {
+      width: 100%;
+      padding: 15px 18px;
+      border: none;
+      border-radius: 16px;
+      background: linear-gradient(90deg, #ec4899 0%, #f43f5e 100%);
+      color: #ffffff;
+      font-size: 15.5px;
+      font-weight: 900;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      box-shadow: 0 12px 26px rgba(236, 72, 153, 0.5);
+      transition: transform 0.14s ease, filter 0.14s ease;
+    }
+
+    .btn-open-center-phone:hover {
+      filter: brightness(1.08);
+    }
+
+    .btn-open-center-phone:active {
+      transform: scale(0.98);
+    }
+
+    /* EXPANDED TALL SMARTPHONE OVERLAY (COVERS TEACHER SPRITE AT Z-INDEX 48, BELOW TOP HUD Z-INDEX 65) */
+    .smartphone-tall {
+      position: fixed;
+      left: 50%;
+      bottom: 10px;
+      z-index: 48;
+      width: min(94vw, 460px);
+      height: min(82vh, 660px);
+      max-height: calc(100vh - 102px);
+      background: #09090b;
+      border-radius: 30px;
+      border: 3.5px solid #3f3f46;
+      box-shadow: 0 28px 65px rgba(0, 0, 0, 0.9), 0 0 0 2px rgba(236, 72, 153, 0.35);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: transform 0.16s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.15s ease;
+    }
+
+    .smartphone-tall.phone-hidden {
+      transform: translate(-50%, 112%);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .smartphone-tall.phone-visible {
+      transform: translate(-50%, 0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .phone-top-bar {
+      background: #18181b;
+      padding: 6px 18px 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: #a1a1aa;
+    }
+
+    .phone-speaker-notch {
+      width: 68px;
+      height: 5px;
+      border-radius: 999px;
+      background: #27272a;
+    }
+
+    .chat-app-header {
+      background: linear-gradient(90deg, #831843 0%, #9d174d 100%);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      border-bottom: 1px solid rgba(244, 114, 182, 0.35);
+    }
+
+    .chat-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: #fce7f3;
+      color: #be185d;
+      font-size: 14px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .btn-hide-phone-pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1.5px solid rgba(253, 224, 71, 0.75);
+      background: rgba(15, 23, 42, 0.72);
+      color: #fde047;
+      font-size: 12px;
+      font-weight: 900;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn-hide-phone-pill:hover {
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    /* Crush Waiting Bar inside Phone */
+    .phone-wait-strip {
+      background: #18181b;
+      padding: 8px 14px;
+      border-bottom: 1px solid #27272a;
+    }
+
+    .phone-wait-labels {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 800;
+      color: #f9a8d4;
+      margin-bottom: 5px;
+    }
+
+    .chat-history {
+      flex: 1 1 auto;
+      padding: 12px 14px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      background: #121215;
+      font-size: 13.5px;
+    }
+
+    .msg-crush {
+      align-self: flex-start;
+      max-width: 88%;
+      background: #272027;
+      border: 1px solid rgba(236, 72, 153, 0.45);
+      color: #fce7f3;
+      padding: 9px 13px;
+      border-radius: 16px 16px 16px 4px;
+      line-height: 1.44;
+    }
+
+    .msg-crush.nag-msg {
+      background: #3b1224;
+      border-color: #fb7185;
+      color: #ffe4e6;
+    }
+
+    .msg-player {
+      align-self: flex-end;
+      max-width: 86%;
+      background: linear-gradient(135deg, #ec4899, #db2777);
+      color: #ffffff;
+      padding: 9px 13px;
+      border-radius: 16px 16px 4px 16px;
+      font-weight: 700;
+      line-height: 1.44;
+    }
+
+    .phone-controls-wrap {
+      background: #18181b;
+      padding: 10px 14px 13px;
+      border-top: 1px solid #27272a;
+    }
+
+    .phone-grid-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 800;
+      color: #e4e4e7;
+      margin-bottom: 7px;
+    }
+
+    .phone-q-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 7px;
+    }
+
+    .btn-phone-q {
+      padding: 9px 4px;
+      border-radius: 11px;
+      border: 1.5px solid #3f3f46;
+      background: #27272a;
+      color: #f4f4f5;
+      font-size: 12.5px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background-color 0.12s ease, border-color 0.12s ease;
+    }
+
+    .btn-phone-q:hover:not(:disabled) {
+      background: #3f3f46;
+      border-color: #ec4899;
+    }
+
+    .btn-phone-q.done {
+      background: rgba(16, 185, 129, 0.22);
+      border-color: #10b981;
+      color: #6ee7b7;
+      cursor: default;
+    }
+
+    /* QUESTION & OPTIONS POP-UP MODAL (BELOW TOP HUD BAR SO PATROL BAR STAYS VISIBLE!) */
+    #question-popup {
+      position: fixed;
+      top: 94px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 56;
+      background: rgba(2, 6, 23, 0.78);
+      backdrop-filter: blur(3px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+    }
+
+    .popup-box {
+      width: 100%;
+      max-width: 720px;
+      max-height: 100%;
+      background: #18181b;
+      border: 2.5px solid #ec4899;
+      border-radius: 22px;
+      box-shadow: 0 24px 55px rgba(0, 0, 0, 0.9);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: popBubbleIn 0.16s ease-out forwards;
+    }
+
+    .popup-top {
+      background: linear-gradient(90deg, #831843 0%, #31102f 100%);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      border-bottom: 1px solid rgba(244, 114, 182, 0.35);
+    }
+
+    .popup-scroll {
+      padding: 12px 14px;
+      overflow-y: auto;
+    }
+
+    .popup-q-preview {
+      background: #27272a;
+      border-left: 4px solid #ec4899;
+      padding: 10px 13px;
+      border-radius: 0 11px 11px 0;
+      font-size: 13.5px;
+      line-height: 1.48;
+      color: #f4f4f5;
+      margin-bottom: 10px;
+      white-space: pre-line;
+    }
+
+    .popup-choices {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .btn-choice-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      width: 100%;
+      text-align: left;
+      padding: 11px 13px;
+      border-radius: 13px;
+      border: 1.5px solid #3f3f46;
+      background: #27272a;
+      color: #f4f4f5;
+      font-size: 13.5px;
+      line-height: 1.42;
+      cursor: pointer;
+      transition: transform 0.12s ease, border-color 0.12s ease, background-color 0.12s ease;
+    }
+
+    .btn-choice-card:hover {
+      border-color: #ec4899;
+      background: rgba(236, 72, 153, 0.24);
+      transform: translateX(3px);
+    }
+
+    .choice-letter-badge {
+      width: 27px;
+      height: 27px;
+      border-radius: 8px;
+      background: #ec4899;
+      color: #ffffff;
+      font-weight: 900;
+      font-size: 13.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ==================== END-OF-GAME RESULT & REVIEW SCREEN ==================== */
+    #result-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 85;
+      background: #0f172a;
+      overflow-y: auto;
+      padding: 18px 14px 44px;
+    }
+
+    .result-wrapper {
+      width: 100%;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .result-hero-card {
+      background: linear-gradient(135deg, #1e1b4b 0%, #831843 100%);
+      border: 2px solid rgba(249, 168, 212, 0.45);
+      border-radius: 26px;
+      padding: 24px 20px;
+      text-align: center;
+      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.55);
+      margin-bottom: 20px;
+    }
+
+    .ending-headline {
+      margin: 8px 0 6px;
+      font-size: clamp(20px, 3.6vw, 27px);
+      font-weight: 900;
+      color: #fde047;
+      line-height: 1.28;
+    }
+
+    .commentary-banner {
+      margin: 14px auto;
+      max-width: 700px;
+      background: rgba(15, 23, 42, 0.78);
+      border: 2px solid rgba(244, 114, 182, 0.65);
+      border-radius: 16px;
+      padding: 14px 16px;
+    }
+
+    .commentary-body {
+      font-size: 14.5px;
+      color: #f8fafc;
+      line-height: 1.5;
+    }
+
+    .score-breakdown-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .score-tile {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .score-tile.highlight {
+      background: rgba(253, 224, 71, 0.18);
+      border-color: #fde047;
+    }
+
+    .btn-replay {
+      margin-top: 20px;
+      padding: 14px 34px;
+      border: none;
+      border-radius: 15px;
+      background: #fde047;
+      color: #0f172a;
+      font-size: 16px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+      transition: transform 0.15s ease;
+    }
+
+    .btn-replay:hover {
+      filter: brightness(1.06);
+    }
+
+    .btn-replay:active {
+      transform: scale(0.97);
+    }
+
+    .review-panel {
+      background: #ffffff;
+      color: #0f172a;
+      border-radius: 22px;
+      padding: 20px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+    }
+
+    .review-toggle-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      cursor: pointer;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 10px;
+      margin-bottom: 14px;
+    }
+
+    .review-card {
+      border: 1.5px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      background: #f8fafc;
+    }
+
+    .review-card.correct {
+      border-color: #6ee7b7;
+      background: #f0fdf4;
+    }
+
+    .review-card.wrong {
+      border-color: #fda4af;
+      background: #fff1f2;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== SCREEN 1: TITLE START SCREEN ==================== -->
+  <div id="screen-start" class="overlay-backdrop">
+    <div class="title-card">
+      <div class="title-pill">💕 GÓC NHÌN HỌC BÁ • THÔNG TƯ 19/2025/TT-BGDĐT</div>
+      <h1 class="main-game-title">
+        PHI VỤ CHỈ BÀI CHO CRUSH:
+        <span>THÔNG TƯ 19</span>
+      </h1>
+      <p class="title-subtext">
+        Hóa thân thành học bá lén dùng điện thoại nhắn đáp án giúp Crush vượt qua bài kiểm tra đột xuất ngay dưới mũi Thầy Nghiêm siêu khó tính!
+      </p>
+      <button id="btn-go-name-setup" class="btn-primary-pink">
+        Bắt đầu trò chơi 🚀
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== SCREEN 2: NAME INPUT MODAL ==================== -->
+  <div id="screen-name-setup" class="overlay-backdrop hidden">
+    <div class="setup-card">
+      <h2 class="setup-heading">💌 Thiết lập nhân vật</h2>
+      <p class="setup-desc">Nhập tên của bạn và người ấy để bắt đầu câu chuyện nhé!</p>
+
+      <div class="input-group">
+        <label for="input-player-name" class="input-label">Tên bạn:</label>
+        <input
+          id="input-player-name"
+          type="text"
+          class="text-input"
+          maxlength="24"
+          placeholder="Nhập tên của bạn (VD: Romeo, Minh...)"
+        />
+      </div>
+
+      <div class="input-group" style="margin-bottom:22px;">
+        <label for="input-crush-name" class="input-label">Tên crush:</label>
+        <input
+          id="input-crush-name"
+          type="text"
+          class="text-input"
+          maxlength="24"
+          placeholder="Nhập tên crush (VD: Juliet, Linh Đan...)"
+        />
+      </div>
+
+      <button id="btn-confirm-names" class="btn-primary-pink" style="max-width:100%;">
+        Tiếp tục →
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== SCREEN 3: STEP-BY-STEP POP-UP CHAT & THOUGHT DIALOGUE ==================== -->
+  <div id="screen-story-chat" class="overlay-backdrop hidden">
+    <div class="story-phone-modal">
+      <div class="story-modal-header">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div id="story-crush-avatar" class="chat-avatar">J💕</div>
+          <div>
+            <div id="story-crush-header-name" style="font-size:15px;font-weight:900;color:#ffffff;">Juliet 💕</div>
+            <div style="font-size:11px;color:#fbcfe8;font-weight:700;">● Đang nhắn tin khẩn cấp</div>
+          </div>
+        </div>
+        <span id="story-step-badge" class="story-step-pill">1 / 5</span>
+      </div>
+
+      <div id="story-dialogue-feed" class="story-dialogue-feed"></div>
+
+      <div class="story-modal-footer">
+        <button id="btn-next-dialogue" class="btn-next-beat">
+          Tiếp theo 💬
+        </button>
+        <button id="btn-enter-classroom" class="btn-primary-pink hidden" style="max-width:100%;font-size:16px;">
+          VÀO LỚP HÀNH ĐỘNG NGAY 🚀
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 4. MAIN GAMEPLAY SCREEN ==================== -->
+  <div id="game-screen" class="hidden">
+    <!-- NON-BLOCKING DRAMATIC CATCH TOAST BANNER -->
+    <div id="catch-toast" class="hidden"></div>
+
+    <!-- TOP STICKY HUD + PATROL BAR (ALWAYS ABOVE TALL PHONE) -->
+    <div class="top-sticky-hud">
+      <header class="hud-bar">
+        <div class="hud-group">
+          <div class="hud-pill" title="Thời gian tiết học">
+            <span>⏱️</span>
+            <span id="hud-timer" class="timer-display">03:00</span>
+          </div>
+          <div class="hud-pill">
+            <span style="color:#cbd5e1;">Đã trả lời:</span>
+            <b id="hud-answered-count" style="color:#34d399;">0/7</b>
+          </div>
+        </div>
+
+        <!-- Crush Affection Meter -->
+        <div id="hud-affection-pill" class="hud-pill affection-pill">
+          <span id="hud-affection-label">💕 Thiện cảm Juliet:</span>
+          <b id="hud-affection-val" style="color:#fbcfe8;">75%</b>
+          <div class="affection-mini-track">
+            <div id="hud-affection-fill" class="affection-mini-fill"></div>
+          </div>
+        </div>
+
+        <div class="hud-group">
+          <div class="hud-pill">
+            <span>Nhắc nhở của thầy:</span>
+            <b id="hud-strikes-text">0/3</b>
+          </div>
+          <button id="btn-mute" class="btn-mute" title="Bật / Tắt âm thanh">🔊</button>
+        </div>
+      </header>
+
+      <!-- PROMINENT PATROL PROGRESS BAR -->
+      <div class="patrol-bar-wrapper">
+        <div class="patrol-bar-header">
+          <span id="patrol-status-text" class="patrol-status-text safe">
+            🟢 AN TOÀN: 10.0s / 10.0s — Thầy đang viết bảng, tranh thủ nhắn Crush!
+          </span>
+          <span id="patrol-countdown-num" class="patrol-countdown-num" style="color:#34d399;">10.0s</span>
+        </div>
+        <div class="patrol-track">
+          <div id="patrol-fill" class="patrol-fill safe"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UPPER VIEWPORT: CLASSROOM POV SCENE (CLEAN TOP-RIGHT, EGG vs CHICKEN CHALKBOARD) -->
+    <section id="classroom-viewport">
+      <div id="red-flash-overlay" class="red-flash-overlay"></div>
+
+      <svg viewBox="0 0 1200 360" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block;">
+        <defs>
+          <linearGradient id="wallBg" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#fef3c7" />
+            <stop offset="68%" stop-color="#fde68a" />
+            <stop offset="68.1%" stop-color="#92400e" />
+            <stop offset="100%" stop-color="#78350f" />
+          </linearGradient>
+          <linearGradient id="chalkboardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#065f46" />
+            <stop offset="100%" stop-color="#022c22" />
+          </linearGradient>
+          <radialGradient id="visionConeGrad" cx="50%" cy="0%" r="100%">
+            <stop offset="0%" stop-color="#ef4444" stop-opacity="0.76" />
+            <stop offset="100%" stop-color="#ef4444" stop-opacity="0.06" />
+          </radialGradient>
+        </defs>
+
+        <!-- Classroom Walls & Wainscoting -->
+        <rect width="1200" height="360" fill="url(#wallBg)" />
+
+        <!-- Spinning Ceiling Fan -->
+        <g transform="translate(560, 22)">
+          <line x1="0" y1="-22" x2="0" y2="0" stroke="#475569" stroke-width="5" />
+          <g class="fan-blades">
+            <ellipse cx="0" cy="0" rx="135" ry="11" fill="#cbd5e1" stroke="#64748b" stroke-width="2" />
+            <ellipse cx="0" cy="0" rx="11" ry="135" fill="#cbd5e1" stroke="#64748b" stroke-width="2" />
+          </g>
+          <circle cx="0" cy="0" r="14" fill="#334155" />
+        </g>
+
+        <!-- Large Green Chalkboard: "Quả trứng có trước hay con gà có trước?" + Cute Chalk Egg & Chicken -->
+        <g transform="translate(110, 42)">
+          <rect x="-12" y="-12" width="784" height="196" rx="12" fill="#78350f" />
+          <rect x="0" y="0" width="760" height="172" rx="6" fill="url(#chalkboardGrad)" />
+          <rect x="-16" y="172" width="792" height="13" rx="4" fill="#92400e" />
+          <rect x="110" y="164" width="44" height="8" rx="2" fill="#f8fafc" />
+          <rect x="168" y="166" width="26" height="6" rx="2" fill="#fde047" />
+
+          <!-- Main Philosophical Chalk Question -->
+          <text x="380" y="54" text-anchor="middle" fill="#fde047" font-size="25" font-weight="900" letter-spacing="0.5">
+            Quả trứng có trước hay con gà có trước?
+          </text>
+          <line x1="95" y1="70" x2="665" y2="70" stroke="#a7f3d0" stroke-width="2" stroke-dasharray="7,6" opacity="0.75" />
+
+          <!-- Cute Chalk Egg Illustration (Left Side of Board) -->
+          <g transform="translate(230, 122)">
+            <ellipse cx="0" cy="0" rx="22" ry="28" fill="none" stroke="#f8fafc" stroke-width="3" />
+            <path d="M-12,-4 L-5,3 L2,-4 L9,3 L14,-2" fill="none" stroke="#fde047" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="-7" cy="-12" r="2.2" fill="#f8fafc" />
+            <circle cx="7" cy="-12" r="2.2" fill="#f8fafc" />
+            <path d="M-4,-7 Q0,-3 4,-7" fill="none" stroke="#f8fafc" stroke-width="2" stroke-linecap="round" />
+            <text x="0" y="42" text-anchor="middle" fill="#bbf7d0" font-size="13" font-weight="800">QUẢ TRỨNG 🥚</text>
+          </g>
+
+          <!-- VS Chalk Spark -->
+          <text x="380" y="126" text-anchor="middle" fill="#f9a8d4" font-size="24" font-weight="900">
+            ? VS ?
+          </text>
+
+          <!-- Cute Chalk Chicken Illustration (Right Side of Board) -->
+          <g transform="translate(530, 122)">
+            <!-- Chicken Body & Head -->
+            <ellipse cx="0" cy="5" rx="24" ry="18" fill="none" stroke="#f8fafc" stroke-width="3" />
+            <circle cx="-18" cy="-12" r="12" fill="none" stroke="#f8fafc" stroke-width="3" />
+            <!-- Comb on Head -->
+            <path d="M-24,-23 Q-21,-31 -18,-24 Q-15,-31 -12,-23" fill="none" stroke="#fb7185" stroke-width="2.5" stroke-linecap="round" />
+            <!-- Beak & Eye -->
+            <polygon points="-30,-13 -38,-10 -30,-7" fill="none" stroke="#fde047" stroke-width="2.4" stroke-linejoin="round" />
+            <circle cx="-21" cy="-13" r="2" fill="#f8fafc" />
+            <!-- Wing & Tail -->
+            <path d="M-6,2 Q4,-4 10,5 Q2,11 -6,2 Z" fill="none" stroke="#bbf7d0" stroke-width="2.2" />
+            <path d="M22,-2 L32,-10 M24,4 L34,0" stroke="#f8fafc" stroke-width="2.5" stroke-linecap="round" />
+            <!-- Feet -->
+            <path d="M-6,23 L-6,30 M6,23 L6,30" stroke="#fde047" stroke-width="2.4" stroke-linecap="round" />
+            <text x="0" y="42" text-anchor="middle" fill="#bbf7d0" font-size="13" font-weight="800">CON GÀ 🐔</text>
+          </g>
+        </g>
+
+        <!-- Clean Classroom Window on Top-Right (NO CRUSH REMINDER WIDGET!) -->
+        <g transform="translate(930, 32)">
+          <rect x="0" y="0" width="220" height="190" rx="10" fill="#bae6fd" stroke="#78350f" stroke-width="7" />
+          <circle cx="165" cy="48" r="22" fill="#fde047" opacity="0.9" />
+          <path d="M7,155 Q65,125 120,150 T213,142 L213,183 L7,183 Z" fill="#86efac" opacity="0.85" />
+          <line x1="110" y1="0" x2="110" y2="190" stroke="#78350f" stroke-width="5" />
+          <line x1="0" y1="98" x2="220" y2="98" stroke="#78350f" stroke-width="5" />
+        </g>
+
+        <!-- Strict Teacher "Thầy Nghiêm" (Centered in Front of Board so Tall Phone Covers Him!) -->
+        <g id="teacher-group" transform="translate(560, 224)">
+          <polygon id="teacher-vision-cone" points="0,12 -210,220 210,220" fill="url(#visionConeGrad)" opacity="0" />
+
+          <g id="teacher-body" class="teacher-writing-anim">
+            <ellipse cx="0" cy="118" rx="40" ry="9" fill="rgba(0,0,0,0.28)" />
+            <rect x="-22" y="54" width="18" height="62" rx="5" fill="#1e293b" />
+            <rect x="4" y="54" width="18" height="62" rx="5" fill="#1e293b" />
+            <path d="M-33,4 Q0,-6 33,4 L29,62 L-29,62 Z" fill="#334155" stroke="#0f172a" stroke-width="2" />
+            <polygon id="teacher-tie" points="0,4 -6,14 0,44 6,14" fill="#dc2626" opacity="0" />
+
+            <g id="teacher-chalk-arm" class="chalk-arm-anim">
+              <rect x="-48" y="4" width="21" height="6" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+            </g>
+
+            <rect id="teacher-ruler" x="29" y="30" width="50" height="6" rx="2" fill="#f59e0b" stroke="#78350f" stroke-width="1.5" transform="rotate(-18 29 30)" opacity="0.35" />
+
+            <circle cx="0" cy="-24" r="25" fill="#fed7aa" stroke="#7c2d12" stroke-width="1.5" />
+            <path id="teacher-hair-back" d="M-25,-22 Q0,-55 25,-22 Q25,4 0,4 Q-25,4 -25,-22 Z" fill="#1e293b" opacity="1" />
+            <path id="teacher-hair-front" d="M-25,-24 Q0,-53 25,-24 Q14,-36 0,-36 Q-14,-36 -25,-24 Z" fill="#1e293b" opacity="0" />
+            <g id="teacher-face" opacity="0">
+              <line x1="-15" y1="-30" x2="-4" y2="-26" stroke="#0f172a" stroke-width="2.8" stroke-linecap="round" />
+              <line x1="15" y1="-30" x2="4" y2="-26" stroke="#0f172a" stroke-width="2.8" stroke-linecap="round" />
+              <rect x="-17" y="-25" width="14" height="10" rx="2" fill="#ffffff" fill-opacity="0.35" stroke="#0f172a" stroke-width="2" />
+              <rect x="3" y="-25" width="14" height="10" rx="2" fill="#ffffff" fill-opacity="0.35" stroke="#0f172a" stroke-width="2" />
+              <line x1="-3" y1="-20" x2="3" y2="-20" stroke="#0f172a" stroke-width="2" />
+              <circle cx="-10" cy="-20" r="2.2" fill="#0f172a" />
+              <circle cx="10" cy="-20" r="2.2" fill="#0f172a" />
+              <path d="M-7,-9 Q0,-14 7,-9" fill="none" stroke="#7c2d12" stroke-width="2.4" stroke-linecap="round" />
+            </g>
+
+            <g id="teacher-alert-badge" transform="translate(0, -70)" opacity="0" class="alert-badge-anim">
+              <circle id="teacher-badge-bg" cx="0" cy="0" r="20" fill="#f59e0b" stroke="#ffffff" stroke-width="2.5" />
+              <text id="teacher-badge-label" x="0" y="7" text-anchor="middle" fill="#ffffff" font-size="21" font-weight="900">!</text>
+            </g>
+          </g>
+        </g>
+      </svg>
+    </section>
+
+    <!-- LOWER VIEWPORT: WOODEN DESK -->
+    <main class="desk-viewport">
+      <!-- Centered Dock Shown When Smartphone Is Hidden -->
+      <div id="centered-hidden-dock" class="centered-hidden-dock">
+        <div class="mini-wait-box">
+          <div class="mini-wait-top">
+            <span id="mini-wait-label">⏳ Thời gian chờ của Juliet 💕</span>
+            <span id="mini-wait-sec" style="font-family:var(--font-mono);color:#fde047;">20.0s / 20.0s</span>
+          </div>
+          <div class="wait-track">
+            <div id="mini-wait-fill" class="wait-fill"></div>
+          </div>
+        </div>
+
+        <button id="btn-open-center-phone" class="btn-open-center-phone">
+          📱 Mở điện thoại nhắn Juliet [Space]
+        </button>
+      </div>
+
+      <!-- EXPANDED TALL SMARTPHONE UI (COVERS TEACHER WHEN OPEN!) -->
+      <aside id="smartphone-tall" class="smartphone-tall phone-hidden" aria-label="Điện thoại nhắn tin cho Crush">
+        <div class="phone-top-bar">
+          <span>09:45 • 5G</span>
+          <div class="phone-speaker-notch"></div>
+          <span>💕 99%</span>
+        </div>
+
+        <!-- Chat Header -->
+        <div class="chat-app-header">
+          <div style="display:flex;align-items:center;gap:9px;min-width:0;">
+            <div id="phone-crush-avatar" class="chat-avatar">J💕</div>
+            <div style="min-width:0;">
+              <div id="phone-crush-title" style="font-size:14.5px;font-weight:900;color:#ffffff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                Juliet 💕 • Đang làm bài
+              </div>
+              <div style="font-size:11px;color:#fbcfe8;font-weight:700;">● Đang chờ bạn gửi đáp án</div>
+            </div>
+          </div>
+          <button id="btn-hide-phone" class="btn-hide-phone-pill" title="Giấu điện thoại [Space]">
+            🙈 Giấu điện thoại [Space]
+          </button>
+        </div>
+
+        <!-- Live 20.0s Crush Waiting Countdown Bar Inside Phone -->
+        <div class="phone-wait-strip">
+          <div class="phone-wait-labels">
+            <span id="phone-wait-label">⏳ Thời gian chờ của Juliet 💕:</span>
+            <span id="phone-wait-sec" style="font-family:var(--font-mono);color:#fde047;">20.0s / 20.0s</span>
+          </div>
+          <div class="wait-track">
+            <div id="phone-wait-fill" class="wait-fill"></div>
+          </div>
+        </div>
+
+        <!-- Scrollable Chat Messages -->
+        <div id="chat-history" class="chat-history"></div>
+
+        <!-- Bottom 7-Question Selector Grid -->
+        <div class="phone-controls-wrap">
+          <div class="phone-grid-header">
+            <span id="phone-grid-prompt">Chọn câu để gửi đáp án cho Juliet:</span>
+            <span id="phone-progress-label" style="color:#f472b6;">0/7</span>
+          </div>
+          <div id="phone-q-grid" class="phone-q-grid"></div>
+        </div>
+      </aside>
+    </main>
+
+    <!-- QUESTION & OPTIONS POP-UP MODAL (BELOW TOP HUD BAR SO PATROL BAR STAYS VISIBLE) -->
+    <div id="question-popup" class="hidden">
+      <div class="popup-box">
+        <div class="popup-top">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-size:18px;">💌</span>
+            <div>
+              <div id="popup-q-title" style="font-size:14.5px;font-weight:900;color:#ffffff;">Câu 1 (1.0đ)</div>
+              <div id="popup-q-sub" style="font-size:11px;color:#fbcfe8;">Chọn 1 đáp án để nhắn cho Juliet 💕</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <button id="btn-popup-hide-phone" class="btn-hide-phone-pill" style="font-size:11px;padding:4px 9px;" title="Giấu điện thoại ngay [Space]">
+              🙈 Giấu ĐT [Space]
+            </button>
+            <button id="btn-close-popup" style="width:28px;height:28px;border-radius:999px;border:1px solid rgba(255,255,255,0.35);background:rgba(0,0,0,0.35);color:#fff;font-weight:900;cursor:pointer;" title="Đóng pop-up">✕</button>
+          </div>
+        </div>
+        <div class="popup-scroll">
+          <div id="popup-q-text" class="popup-q-preview"></div>
+          <div id="popup-choices-list" class="popup-choices"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 5. END-OF-GAME RESULT & REVIEW SCREEN ==================== -->
+  <div id="result-screen" class="hidden">
+    <div class="result-wrapper">
+      <div class="result-hero-card">
+        <div id="res-hero-emoji" style="font-size:50px;margin-bottom:4px;">💖</div>
+        <h2 id="res-ending-headline" class="ending-headline">
+          KẾT QUẢ PHI VỤ CHỈ BÀI CHO CRUSH
+        </h2>
+
+        <div class="commentary-banner">
+          <div id="res-commentary-body" class="commentary-body">
+            Tổng kết hành trình giúp Crush vượt qua bài kiểm tra Thông tư 19/2025/TT-BGDĐT!
+          </div>
+        </div>
+
+        <div class="score-breakdown-grid">
+          <div class="score-tile highlight">
+            <div id="res-score-label" style="font-size:11.5px;color:#fde047;font-weight:800;">ĐIỂM BÀI KIỂM TRA CỦA JULIET</div>
+            <div id="res-exam-score" style="font-size:24px;font-weight:900;color:#fde047;margin-top:4px;">10.00 / 10.0</div>
+          </div>
+          <div class="score-tile">
+            <div id="res-affection-label" style="font-size:11.5px;color:#fbcfe8;font-weight:800;">THIỆN CẢM CUỐI CÙNG</div>
+            <div id="res-affection-score" style="font-size:23px;font-weight:900;color:#f472b6;margin-top:4px;">100%</div>
+          </div>
+          <div class="score-tile">
+            <div style="font-size:11.5px;color:#e2e8f0;font-weight:800;">NHẮC NHỞ CỦA THẦY NGHIÊM</div>
+            <div id="res-caught-count" style="font-size:22px;font-weight:900;color:#ffffff;margin-top:4px;">0 / 3 lần</div>
+          </div>
+        </div>
+
+        <button id="btn-replay" class="btn-replay">Chơi lại 🔄</button>
+      </div>
+
+      <!-- Collapsible / Scrollable Detailed Review of All 7 Questions -->
+      <div class="review-panel">
+        <div id="review-toggle-header" class="review-toggle-header" title="Bấm để thu gọn / mở rộng đáp án chi tiết">
+          <h3 style="margin:0;font-size:17.5px;font-weight:900;color:#0f172a;">
+            📚 ĐÁP ÁN &amp; GIẢI THÍCH PHÁP LÝ CHI TIẾT (THÔNG TƯ 19/2025/TT-BGDĐT)
+          </h3>
+          <span id="review-toggle-icon" style="font-size:13px;font-weight:800;color:#be185d;">Thu gọn ▲</span>
+        </div>
+        <div id="res-review-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== GAME DATA, WEB AUDIO & LOGIC ==================== -->
+  <script>
+    // ==================== EXACT 7 QUESTIONS DATA (TOTAL = 10.0 POINTS) ====================
+    const QUESTIONS = [
+      {
+        id: 1,
+        points: 1.0,
+        pointsLabel: "1.0đ",
+        question: "Theo Điều 4 của Quy định về khen thưởng và kỷ luật học sinh, khen thưởng học sinh nhằm mục đích gì?",
+        options: [
+          { key: "A", text: "Ghi nhận, biểu dương, động viên và khuyến khích học sinh." },
+          { key: "B", text: "Xử lý các hành vi vi phạm của học sinh." },
+          { key: "C", text: "Tăng cường kiểm tra học sinh." },
+          { key: "D", text: "Phân loại học sinh theo năng lực." }
+        ],
+        correct: "A",
+        explanation: "Theo khoản 1 Điều 4 Thông tư 19/2025/TT-BGDĐT, khen thưởng nhằm ghi nhận những thành tích, biểu hiện tốt của học sinh; đồng thời biểu dương, động viên và khuyến khích các em tiếp tục rèn luyện, tu dưỡng, phấn đấu vươn lên trong học tập và cuộc sống."
+      },
+      {
+        id: 2,
+        points: 1.0,
+        pointsLabel: "1.0đ",
+        question: "Nguyên tắc nào sau đây cần được bảo đảm trong quá trình thực hiện kỷ luật học sinh?",
+        options: [
+          { key: "A", text: "Bảo đảm tính chủ động, tích cực; tôn trọng, bao dung, khách quan và không định kiến đối với học sinh." },
+          { key: "B", text: "Ưu tiên hình thức phê bình trước tập thể." },
+          { key: "C", text: "Áp dụng hình thức kỷ luật giống nhau đối với tất cả học sinh." },
+          { key: "D", text: "Tập trung xử lý vi phạm mà không cần xem xét hoàn cảnh của học sinh." }
+        ],
+        correct: "A",
+        explanation: "Đáp án A đúng theo khoản 2 Điều 11 Thông tư 19/2025/TT-BGDĐT. Các phương án B, C, D sai vì kỷ luật không ưu tiên phê bình trước tập thể và phải xem xét hoàn cảnh, đặc điểm từng học sinh."
+      },
+      {
+        id: 3,
+        points: 1.5,
+        pointsLabel: "1.5đ",
+        question: "Em T là học sinh lớp 4 của trường Tiểu học Y. Trong giờ ra chơi, do tranh giành đồ chơi, T đã có lời lẽ xúc phạm danh dự và xô đẩy bạn M cùng lớp khiến M khóc nức nở. Căn cứ theo quy định hiện hành, biện pháp kỷ luật sẽ được áp dụng đối với em T là gì?",
+        options: [
+          { key: "A", text: "Yêu cầu xin lỗi." },
+          { key: "B", text: "Nhắc nhở." },
+          { key: "C", text: "Yêu cầu viết bản kiểm điểm." },
+          { key: "D", text: "Phê bình." }
+        ],
+        correct: "A",
+        explanation: "Căn cứ điểm b khoản 2 Điều 12 và khoản 2 Điều 14 Thông tư 19/2025/TT-BGDĐT, hành vi xúc phạm và xô đẩy bạn M thuộc mức độ 2 nên áp dụng biện pháp yêu cầu xin lỗi. Bậc Tiểu học chỉ áp dụng nhắc nhở và yêu cầu xin lỗi (Điều 13)."
+      },
+      {
+        id: 4,
+        points: 1.5,
+        pointsLabel: "1.5đ",
+        question: "Trong công tác khen thưởng và kỷ luật học sinh, nhận định nào sau đây là SAI khi nói về trách nhiệm của các chủ thể sau?",
+        options: [
+          { key: "A", text: "Nhà trường được căn cứ vào điều kiện thực tế để ban hành quy định về hình thức và định mức thưởng cho học sinh." },
+          { key: "B", text: "Giáo viên chủ nhiệm có thẩm quyền trực tiếp quyết định các hình thức khen thưởng, kỷ luật đối với học sinh của lớp mình." },
+          { key: "C", text: "Hiệu trưởng là người ra quyết định khen thưởng, kỷ luật học sinh thuộc thẩm quyền và chịu trách nhiệm trước pháp luật về việc này." },
+          { key: "D", text: "Gia đình học sinh có trách nhiệm xác nhận vào bản tự kiểm điểm (nếu có) và cam kết phối hợp quản lý, giáo dục với nhà trường." }
+        ],
+        correct: "B",
+        explanation: "Phương án B sai vì theo điểm b khoản 3 Điều 18 Thông tư 19/2025/TT-BGDĐT, Giáo viên chủ nhiệm chỉ có trách nhiệm đề xuất; người có thẩm quyền quyết định là Hiệu trưởng (điểm b khoản 2 Điều 18)."
+      },
+      {
+        id: 5,
+        points: 1.5,
+        pointsLabel: "1.5đ",
+        question: "Theo quy định tại Điều 5 đến Điều 10, nhận định nào sau đây là ĐÚNG về hình thức tuyên dương, khen thưởng học sinh?",
+        options: [
+          { key: "A", text: "Tuyên dương trước toàn trường do giáo viên chủ nhiệm trực tiếp quyết định và thực hiện." },
+          { key: "B", text: "Giấy khen của Hiệu trưởng chỉ được trao cho học sinh đạt thành tích xuất sắc trong học tập, không áp dụng đối với thành tích rèn luyện." },
+          { key: "C", text: "Ngoài các hình thức tuyên dương, khen thưởng được quy định, các cơ quan, tổ chức, cá nhân có thể thực hiện những hình thức khác phù hợp với nguyên tắc khen thưởng và quy định pháp luật có liên quan." },
+          { key: "D", text: "Thư khen chỉ áp dụng đối với học sinh có thành tích đột xuất, không áp dụng đối với học sinh có tiến bộ trong học tập và rèn luyện." }
+        ],
+        correct: "C",
+        explanation: "Đáp án C đúng theo khoản 1 Điều 10 Thông tư 19/2025/TT-BGDĐT. Phương án A sai vì GVCN chỉ đề nghị Hiệu trưởng; B sai vì xét cả kết quả rèn luyện; D sai vì thư khen áp dụng cả khi học sinh tiến bộ, vượt lên chính mình."
+      },
+      {
+        id: 6,
+        points: 1.75,
+        pointsLabel: "1.75đ",
+        question: "Tại lớp 8A1, Nam nhiều lần nói chuyện riêng, gây mất trật tự trong giờ học. Sau khi được giáo viên nhắc nhở, Nam vẫn tiếp tục vi phạm ở mức độ 1 nên giáo viên đã áp dụng biện pháp phê bình. Tuy nhiên, trong một tiết học tiếp theo, Nam tiếp tục có hành vi vi phạm ở mức độ 2. Căn cứ Điều 15, cách xử lý nào sau đây đúng quy định?",
+        options: [
+          { key: "A", text: "Tiếp tục nhắc nhở vì hành vi của học sinh chưa gây ảnh hưởng đến phạm vi toàn trường." },
+          { key: "B", text: "Tiếp tục phê bình vì học sinh phải vi phạm mức độ 3 mới được áp dụng biện pháp viết bản tự kiểm điểm." },
+          { key: "C", text: "Yêu cầu học sinh viết bản tự kiểm điểm, có xác nhận và cam kết của gia đình với nhà trường, đồng thời được lưu trong hồ sơ nhà trường." },
+          { key: "D", text: "Không áp dụng thêm biện pháp kỷ luật vì học sinh đã được nhắc nhở và phê bình trước đó." }
+        ],
+        correct: "C",
+        explanation: "Theo khoản 3 Điều 15 Thông tư 19/2025/TT-BGDĐT, Nam đã bị phê bình nhưng tiếp tục có hành vi vi phạm ở mức độ 2 nên áp dụng biện pháp yêu cầu viết bản tự kiểm điểm có xác nhận, cam kết của gia đình và lưu trong hồ sơ nhà trường."
+      },
+      {
+        id: 7,
+        points: 1.75,
+        pointsLabel: "1.75đ",
+        question: "Cho các phát biểu sau theo Thông tư 19/2025/TT-BGDĐT:\n(1) Hoạt động hỗ trợ khắc phục hành vi vi phạm được thực hiện cả khi học sinh chưa bị áp dụng biện pháp kỷ luật và khi học sinh đang bị áp dụng một trong các biện pháp kỷ luật.\n(2) Giáo viên bộ môn có thẩm quyền trực tiếp thực hiện biện pháp phê bình đối với học sinh mà không cần phối hợp với giáo viên chủ nhiệm.\n(3) Giáo viên chủ nhiệm là đầu mối giúp hiệu trưởng phối hợp với gia đình học sinh và các lực lượng khác để khen thưởng, động viên kịp thời và tư vấn, giám sát, quản lý, hỗ trợ hạn chế hành vi vi phạm của học sinh.\n(4) Gia đình học sinh có trách nhiệm xác nhận vào bản tự kiểm điểm của học sinh (nếu có) và cam kết với nhà trường trong việc phối hợp quản lý, giáo dục, hỗ trợ học sinh.\n(5) Sở Giáo dục và Đào tạo trực tiếp quyết định việc khen thưởng, kỷ luật học sinh tại các nhà trường thuộc phạm vi quản lý.\nCó bao nhiêu phát biểu đúng?",
+        options: [
+          { key: "A", text: "2" },
+          { key: "B", text: "3" },
+          { key: "C", text: "4" },
+          { key: "D", text: "5" }
+        ],
+        correct: "B",
+        explanation: "Có 3 phát biểu đúng là (1), (3), (4). Phát biểu (2) sai vì giáo viên bộ môn phải phối hợp với GVCN (khoản 2 Điều 17); phát biểu (5) sai vì Sở GD&ĐT chỉ chỉ đạo, hướng dẫn, kiểm tra, giám sát (Điều 20)."
+      }
+    ];
+
+    // ==================== WEB AUDIO API SOUND EFFECTS ENGINE ====================
+    class GameSoundEngine {
+      constructor() {
+        this.ctx = null;
+        this.muted = false;
+      }
+
+      ensureContext() {
+        if (this.muted) return null;
+        try {
+          if (!this.ctx) {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (AudioCtx) this.ctx = new AudioCtx();
+          }
+          if (this.ctx && this.ctx.state === "suspended") {
+            this.ctx.resume();
+          }
+          return this.ctx;
+        } catch (e) {
+          return null;
+        }
+      }
+
+      playClockTick(urgent = false) {
+        const ctx = this.ensureContext();
+        if (!ctx) return;
+        try {
+          const now = ctx.currentTime;
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "triangle";
+          osc.frequency.setValueAtTime(urgent ? 1050 : 760, now);
+          gain.gain.setValueAtTime(urgent ? 0.065 : 0.028, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.045);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.05);
+        } catch (e) {}
+      }
+
+      playWarningBeep() {
+        const ctx = this.ensureContext();
+        if (!ctx) return;
+        try {
+          const now = ctx.currentTime;
+          [880, 1174.66].forEach((freq, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = "sine";
+            osc.frequency.setValueAtTime(freq, now + idx * 0.09);
+            gain.gain.setValueAtTime(0.16, now + idx * 0.09);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.09 + 0.22);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + idx * 0.09);
+            osc.stop(now + idx * 0.09 + 0.24);
+          });
+        } catch (e) {}
+      }
+
+      playChatPop(isThought = false) {
+        const ctx = this.ensureContext();
+        if (!ctx) return;
+        try {
+          const now = ctx.currentTime;
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "sine";
+          if (isThought) {
+            osc.frequency.setValueAtTime(440, now);
+            osc.frequency.exponentialRampToValueAtTime(554.37, now + 0.11);
+          } else {
+            osc.frequency.setValueAtTime(587.33, now);
+            osc.frequency.exponentialRampToValueAtTime(880, now + 0.11);
+          }
+          gain.gain.setValueAtTime(0.13, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.16);
+        } catch (e) {}
+      }
+
+      playAnswerSentChime() {
+        const ctx = this.ensureContext();
+        if (!ctx) return;
+        try {
+          const now = ctx.currentTime;
+          [659.25, 987.77].forEach((freq, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = "sine";
+            osc.frequency.setValueAtTime(freq, now + idx * 0.1);
+            gain.gain.setValueAtTime(0.14, now + idx * 0.1);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.1 + 0.24);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + idx * 0.1);
+            osc.stop(now + idx * 0.1 + 0.25);
+          });
+        } catch (e) {}
+      }
+
+      playNudgeNotification() {
+        const ctx = this.ensureContext();
+        if (!ctx) return;
+        try {
+          const now = ctx.currentTime;
+          [740, 587.33].forEach((freq, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = "sine";
+            osc.frequency.setValueAtTime(freq, now + idx * 0.13);
+            gain.gain.setValueAtTime(0.15, now + idx * 0.13);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.13 + 0.24);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + idx * 0.13);
+            osc.stop(now + idx * 0.13 + 0.25);
+          });
+        } catch (e) {}
+      }
+
+      playCaughtAlarm() {
+        const ctx = this.ensureContext();
+        if (!ctx) return;
+        try {
+          const now = ctx.currentTime;
+          [145, 110].forEach((freq, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = "sawtooth";
+            osc.frequency.setValueAtTime(freq, now + idx * 0.18);
+            gain.gain.setValueAtTime(0.24, now + idx * 0.18);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.18 + 0.35);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + idx * 0.18);
+            osc.stop(now + idx * 0.18 + 0.36);
+          });
+        } catch (e) {}
+      }
+
+      playVictory() {
+        const ctx = this.ensureContext();
+        if (!ctx) return;
+        try {
+          const now = ctx.currentTime;
+          [523.25, 659.25, 783.99, 1046.5].forEach((freq, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = "triangle";
+            osc.frequency.setValueAtTime(freq, now + idx * 0.11);
+            gain.gain.setValueAtTime(0.15, now + idx * 0.11);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.11 + 0.35);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + idx * 0.11);
+            osc.stop(now + idx * 0.11 + 0.36);
+          });
+        } catch (e) {}
+      }
+    }
+
+    const sfx = new GameSoundEngine();
+
+    // ==================== GAME CONSTANTS & STATE ====================
+    const TOTAL_GAME_SECONDS = 180;   // 03:00 class period
+    const SAFE_DURATION = 10.0;       // Exact 10.0s Safe
+    const WARNING_DURATION = 1.0;     // Exact 1.0s Warning (!)
+    const DANGER_DURATION = 2.4;      // Exact 2.4s Danger (!!)
+    const CRUSH_WAIT_MAX = 20.0;      // 20.0s Crush waiting bar per answer
+    const INITIAL_AFFECTION = 75;     // Starts at 75% (3x -25% catch = 0% simultaneous edge!)
+
+    const state = {
+      playerName: "Học bá",
+      crushName: "Juliet",
+      storyStep: 0,
+      storyBeats: [],
+      isPlaying: false,
+      isEnding: false,
+      timeLeft: TOTAL_GAME_SECONDS,
+      warnings: 0,
+      affection: INITIAL_AFFECTION,
+      userAnswers: Array(QUESTIONS.length).fill(null),
+      phoneOpen: false,
+      activePopupIdx: null,
+      proctorState: "SAFE", // SAFE | WARNING | DANGER
+      proctorTimer: SAFE_DURATION,
+      proctorMax: SAFE_DURATION,
+      crushWaitTimer: CRUSH_WAIT_MAX,
+      nudgeIndex: 0
+    };
+
+    let mainLoopTimer = null;
+    let lastTickSecond = TOTAL_GAME_SECONDS;
+    let toastTimeout = null;
+    let endGameTimeout = null;
+
+    // ==================== DOM REFERENCES ====================
+    const screenStart = document.getElementById("screen-start");
+    const screenNameSetup = document.getElementById("screen-name-setup");
+    const screenStoryChat = document.getElementById("screen-story-chat");
+    const gameScreen = document.getElementById("game-screen");
+    const resultScreen = document.getElementById("result-screen");
+
+    const inputPlayerName = document.getElementById("input-player-name");
+    const inputCrushName = document.getElementById("input-crush-name");
+
+    const storyCrushAvatar = document.getElementById("story-crush-avatar");
+    const storyCrushHeaderName = document.getElementById("story-crush-header-name");
+    const storyStepBadge = document.getElementById("story-step-badge");
+    const storyDialogueFeed = document.getElementById("story-dialogue-feed");
+    const btnNextDialogue = document.getElementById("btn-next-dialogue");
+    const btnEnterClassroom = document.getElementById("btn-enter-classroom");
+
+    // HUD & Patrol Bar
+    const hudTimer = document.getElementById("hud-timer");
+    const hudAnsweredCount = document.getElementById("hud-answered-count");
+    const hudAffectionPill = document.getElementById("hud-affection-pill");
+    const hudAffectionLabel = document.getElementById("hud-affection-label");
+    const hudAffectionVal = document.getElementById("hud-affection-val");
+    const hudAffectionFill = document.getElementById("hud-affection-fill");
+    const hudStrikesText = document.getElementById("hud-strikes-text");
+    const btnMute = document.getElementById("btn-mute");
+
+    const patrolStatusText = document.getElementById("patrol-status-text");
+    const patrolCountdownNum = document.getElementById("patrol-countdown-num");
+    const patrolFill = document.getElementById("patrol-fill");
+
+    const redFlashOverlay = document.getElementById("red-flash-overlay");
+    const catchToast = document.getElementById("catch-toast");
+
+    // Teacher SVG elements
+    const teacherBody = document.getElementById("teacher-body");
+    const teacherVisionCone = document.getElementById("teacher-vision-cone");
+    const teacherTie = document.getElementById("teacher-tie");
+    const teacherChalkArm = document.getElementById("teacher-chalk-arm");
+    const teacherRuler = document.getElementById("teacher-ruler");
+    const teacherHairBack = document.getElementById("teacher-hair-back");
+    const teacherHairFront = document.getElementById("teacher-hair-front");
+    const teacherFace = document.getElementById("teacher-face");
+    const teacherAlertBadge = document.getElementById("teacher-alert-badge");
+    const teacherBadgeBg = document.getElementById("teacher-badge-bg");
+    const teacherBadgeLabel = document.getElementById("teacher-badge-label");
+
+    // Hidden Dock & Tall Smartphone
+    const centeredHiddenDock = document.getElementById("centered-hidden-dock");
+    const miniWaitLabel = document.getElementById("mini-wait-label");
+    const miniWaitSec = document.getElementById("mini-wait-sec");
+    const miniWaitFill = document.getElementById("mini-wait-fill");
+    const btnOpenCenterPhone = document.getElementById("btn-open-center-phone");
+
+    const smartphoneTall = document.getElementById("smartphone-tall");
+    const phoneCrushAvatar = document.getElementById("phone-crush-avatar");
+    const phoneCrushTitle = document.getElementById("phone-crush-title");
+    const btnHidePhone = document.getElementById("btn-hide-phone");
+    const phoneWaitLabel = document.getElementById("phone-wait-label");
+    const phoneWaitSec = document.getElementById("phone-wait-sec");
+    const phoneWaitFill = document.getElementById("phone-wait-fill");
+    const chatHistory = document.getElementById("chat-history");
+    const phoneGridPrompt = document.getElementById("phone-grid-prompt");
+    const phoneProgressLabel = document.getElementById("phone-progress-label");
+    const phoneQGrid = document.getElementById("phone-q-grid");
+
+    // Question Pop-up
+    const questionPopup = document.getElementById("question-popup");
+    const popupQTitle = document.getElementById("popup-q-title");
+    const popupQSub = document.getElementById("popup-q-sub");
+    const popupQText = document.getElementById("popup-q-text");
+    const popupChoicesList = document.getElementById("popup-choices-list");
+    const btnClosePopup = document.getElementById("btn-close-popup");
+    const btnPopupHidePhone = document.getElementById("btn-popup-hide-phone");
+
+    // Result Screen
+    const reviewToggleHeader = document.getElementById("review-toggle-header");
+    const reviewToggleIcon = document.getElementById("review-toggle-icon");
+    const resReviewList = document.getElementById("res-review-list");
+
+    // ==================== 1. INTRO & NAME SETUP FLOW HANDLERS ====================
+    document.getElementById("btn-go-name-setup").addEventListener("click", () => {
+      sfx.ensureContext();
+      sfx.playChatPop(false);
+      screenStart.classList.add("hidden");
+      screenNameSetup.classList.remove("hidden");
+      setTimeout(() => inputPlayerName.focus(), 60);
+    });
+
+    function submitNamesAndOpenStory() {
+      sfx.ensureContext();
+      const rawPlayer = inputPlayerName.value.trim();
+      const rawCrush = inputCrushName.value.trim();
+
+      state.playerName = rawPlayer || "Học bá";
+      state.crushName = rawCrush || "Juliet";
+
+      const p = state.playerName;
+      const c = state.crushName;
+      const initialLetter = c.charAt(0).toUpperCase();
+
+      storyCrushAvatar.textContent = `${initialLetter}💕`;
+      storyCrushHeaderName.textContent = `${c} 💕`;
+
+      // Build the exact 5 step-by-step pop-up dialogue beats
+      state.storyBeats = [
+        {
+          type: "crush-chat",
+          sender: `${c} 💕`,
+          text: `${p} ơi cứu mình với!! Lớp mình đang kiểm tra đột xuất Thông tư 19/2025/TT-BGDĐT mà mình chưa kịp ôn gì hết 😭 Chỉ bài qua tin nhắn cho mình nha!`
+        },
+        {
+          type: "crush-chat",
+          sender: `${c} 💕`,
+          text: `Tan học mình mời ${p} đi uống trà sữa full topping để cảm ơn liền nha 🥺🧋💕`
+        },
+        {
+          type: "player-thought",
+          sender: `${p} 💭 (Suy nghĩ nội tâm)`,
+          text: `Trời ơi, đang trong tiết của Thầy Nghiêm siêu khó tính! Lén mở điện thoại nhắn tin trong giờ mà bị thầy bắt được là toi đời luôn...`
+        },
+        {
+          type: "player-thought",
+          sender: `${p} 💭 (Suy nghĩ nội tâm)`,
+          text: `Nhưng mà là ${c} nhờ vả cơ mà! Vì ${c}, liều một phen luôn chứ biết sao giờ! 🔥`
+        },
+        {
+          type: "player-chat",
+          sender: `${p} 💬`,
+          text: `Ok ${c} cứ bình tĩnh làm bài đi! Để mình canh lúc thầy quay lên bảng rồi nhắn đáp án từng câu cho nha 😎💪`
+        }
+      ];
+
+      state.storyStep = 0;
+      storyDialogueFeed.innerHTML = "";
+      btnNextDialogue.classList.remove("hidden");
+      btnEnterClassroom.classList.add("hidden");
+
+      screenNameSetup.classList.add("hidden");
+      screenStoryChat.classList.remove("hidden");
+
+      advanceStoryBeat();
+    }
+
+    document.getElementById("btn-confirm-names").addEventListener("click", submitNamesAndOpenStory);
+
+    [inputPlayerName, inputCrushName].forEach((inp) => {
+      inp.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          submitNamesAndOpenStory();
+        }
+      });
+    });
+
+    function advanceStoryBeat() {
+      if (state.storyStep >= state.storyBeats.length) return;
+
+      const beat = state.storyBeats[state.storyStep];
+      state.storyStep += 1;
+
+      sfx.playChatPop(beat.type === "player-thought");
+      storyStepBadge.textContent = `${state.storyStep} / ${state.storyBeats.length}`;
+
+      const bubble = document.createElement("div");
+      bubble.className = `dialogue-beat ${beat.type}`;
+      bubble.innerHTML = `
+        <span class="beat-sender">${escapeHtml(beat.sender)}</span>
+        <div>${escapeHtml(beat.text)}</div>
+      `;
+      storyDialogueFeed.appendChild(bubble);
+      storyDialogueFeed.scrollTop = storyDialogueFeed.scrollHeight;
+
+      if (state.storyStep >= state.storyBeats.length) {
+        btnNextDialogue.classList.add("hidden");
+        btnEnterClassroom.classList.remove("hidden");
+      }
+    }
+
+    btnNextDialogue.addEventListener("click", advanceStoryBeat);
+
+    btnEnterClassroom.addEventListener("click", () => {
+      screenStoryChat.classList.add("hidden");
+      startGameplaySession();
+    });
+
+    // ==================== GAMEPLAY CONTROLS & SHORTCUTS ====================
+    btnMute.addEventListener("click", () => {
+      sfx.muted = !sfx.muted;
+      btnMute.textContent = sfx.muted ? "🔇" : "🔊";
+    });
+
+    btnOpenCenterPhone.addEventListener("click", () => {
+      if (!state.isPlaying || state.isEnding) return;
+      setPhoneOpen(true);
+    });
+
+    btnHidePhone.addEventListener("click", () => {
+      hidePhoneAndPopup(false);
+    });
+
+    btnPopupHidePhone.addEventListener("click", () => {
+      hidePhoneAndPopup(false);
+    });
+
+    btnClosePopup.addEventListener("click", () => {
+      closeQuestionPopup();
+    });
+
+    window.addEventListener("keydown", (e) => {
+      if (e.code === "Space") {
+        if (!state.isPlaying || state.isEnding) return;
+        e.preventDefault();
+        togglePhone();
+      } else if (e.code === "Escape") {
+        if (state.activePopupIdx !== null) {
+          closeQuestionPopup();
+        } else if (state.phoneOpen) {
+          hidePhoneAndPopup(false);
+        }
+      }
+    });
+
+    document.getElementById("btn-replay").addEventListener("click", () => {
+      resultScreen.classList.add("hidden");
+      startGameplaySession();
+    });
+
+    reviewToggleHeader.addEventListener("click", () => {
+      const isHidden = resReviewList.classList.toggle("hidden");
+      reviewToggleIcon.textContent = isHidden ? "Mở rộng ▼" : "Thu gọn ▲";
+    });
+
+    // ==================== START GAMEPLAY SESSION ====================
+    function startGameplaySession() {
+      if (mainLoopTimer) clearInterval(mainLoopTimer);
+      if (toastTimeout) clearTimeout(toastTimeout);
+      if (endGameTimeout) clearTimeout(endGameTimeout);
+
+      sfx.ensureContext();
+
+      state.isPlaying = true;
+      state.isEnding = false;
+      state.timeLeft = TOTAL_GAME_SECONDS;
+      state.warnings = 0;
+      state.affection = INITIAL_AFFECTION;
+      state.userAnswers = Array(QUESTIONS.length).fill(null);
+      state.phoneOpen = false;
+      state.activePopupIdx = null;
+      state.proctorState = "SAFE";
+      state.proctorTimer = SAFE_DURATION;
+      state.proctorMax = SAFE_DURATION;
+      state.crushWaitTimer = CRUSH_WAIT_MAX;
+      state.nudgeIndex = 0;
+      lastTickSecond = TOTAL_GAME_SECONDS;
+
+      const c = state.crushName;
+      const p = state.playerName;
+      const cInitial = c.charAt(0).toUpperCase();
+
+      // Apply custom names across all UI elements
+      hudAffectionLabel.textContent = `💕 Thiện cảm ${c}:`;
+      miniWaitLabel.textContent = `⏳ Thời gian chờ của ${c} 💕`;
+      btnOpenCenterPhone.textContent = `📱 Mở điện thoại nhắn ${c} [Space]`;
+      phoneCrushAvatar.textContent = `${cInitial}💕`;
+      phoneCrushTitle.textContent = `${c} 💕 • Đang làm bài`;
+      phoneWaitLabel.textContent = `⏳ Thời gian chờ của ${c} 💕:`;
+      phoneGridPrompt.textContent = `Chọn câu để gửi đáp án cho ${c}:`;
+
+      catchToast.classList.add("hidden");
+      redFlashOverlay.classList.remove("flash");
+      gameScreen.classList.remove("shake-active");
+
+      hidePhoneAndPopup(true);
+
+      // Initialize in-game chat log with the opening exchange
+      chatHistory.innerHTML = `
+        <div class="msg-crush">
+          <b style="color:#f472b6;display:block;margin-bottom:2px;">${escapeHtml(c)} 💕:</b>
+          ${escapeHtml(p)} ơi cứu mình bài kiểm tra Thông tư 19 với, đừng để mình chờ lâu quá nha 🥺💕
+        </div>
+        <div class="msg-player">
+          Ok ${escapeHtml(c)}, đợi mình gửi đáp án từng câu qua liền đây! 😎
+        </div>
+      `;
+
+      renderPhoneQuestionGrid();
+      updateHUD();
+      updateCrushWaitBars();
+      setProctorState("SAFE", SAFE_DURATION);
+
+      screenStart.classList.add("hidden");
+      screenNameSetup.classList.add("hidden");
+      screenStoryChat.classList.add("hidden");
+      resultScreen.classList.add("hidden");
+      gameScreen.classList.remove("hidden");
+
+      mainLoopTimer = setInterval(gameTick, 100);
+    }
+
+    // ==================== MAIN GAME LOOP (100ms TICK) ====================
+    function gameTick() {
+      if (!state.isPlaying || state.isEnding) return;
+
+      const dt = 0.1;
+      state.timeLeft = Math.max(0, state.timeLeft - dt);
+
+      const wholeSec = Math.ceil(state.timeLeft);
+      if (wholeSec < lastTickSecond) {
+        lastTickSecond = wholeSec;
+        sfx.playClockTick(wholeSec <= 20);
+      }
+
+      if (state.timeLeft <= 0) {
+        updateHUD();
+        evaluateAndFinish("TIME_UP");
+        return;
+      }
+
+      // 1. Update 20.0s Crush Waiting Countdown
+      state.crushWaitTimer = Math.max(0, state.crushWaitTimer - dt);
+      if (state.crushWaitTimer <= 0.001) {
+        handleCrushWaitTimeout();
+        if (state.isEnding) return;
+      }
+      updateCrushWaitBars();
+
+      // 2. Exact Proctor Patrol Cycle: 10.0s SAFE -> 1.0s WARNING -> 2.4s DANGER
+      state.proctorTimer = Math.max(0, state.proctorTimer - dt);
+      if (state.proctorTimer <= 0.001) {
+        if (state.proctorState === "SAFE") {
+          setProctorState("WARNING", WARNING_DURATION);
+        } else if (state.proctorState === "WARNING") {
+          setProctorState("DANGER", DANGER_DURATION);
+        } else if (state.proctorState === "DANGER") {
+          setProctorState("SAFE", SAFE_DURATION);
+        }
+      }
+
+      updatePatrolBar();
+
+      // 3. Check during DANGER if tall phone or question pop-up is open -> caught!
+      if (state.proctorState === "DANGER" && (state.phoneOpen || state.activePopupIdx !== null)) {
+        handleCaughtByTeacher();
+        if (state.isEnding) return;
+      }
+
+      updateHUD();
+    }
+
+    // ==================== CRUSH WAITING TIMEOUT (-15% AFFECTION + URGING CHAT) ====================
+    function handleCrushWaitTimeout() {
+      state.crushWaitTimer = CRUSH_WAIT_MAX;
+      sfx.playNudgeNotification();
+
+      const p = state.playerName;
+      const c = state.crushName;
+      const nudgeTemplates = [
+        `${p} ơi nhanh lên sắp hết giờ rồi 😭`,
+        `Sao im re vậy trời, cứu mình câu tiếp theo đi 🥺`,
+        `Huhu ${p} ơi lâu quá, tim mình đập thình thịch rồi đây này 💦`,
+        `Nhanh tay lên ${p} ơi, mình sắp phải nộp bài rồi 😰`
+      ];
+
+      const msg = nudgeTemplates[state.nudgeIndex % nudgeTemplates.length];
+      state.nudgeIndex++;
+
+      const nagBubble = document.createElement("div");
+      nagBubble.className = "msg-crush nag-msg";
+      nagBubble.innerHTML = `
+        <b style="color:#fda4af;display:block;margin-bottom:2px;">${escapeHtml(c)} 💕:</b>
+        ${escapeHtml(msg)}
+      `;
+      chatHistory.appendChild(nagBubble);
+      chatHistory.scrollTop = chatHistory.scrollHeight;
+
+      applyAffectionDelta(-15);
+      checkFailureEndings();
+    }
+
+    // ==================== AFFECTION DELTA & FLOATING BADGE ====================
+    function applyAffectionDelta(delta) {
+      const prev = state.affection;
+      state.affection = Math.max(0, Math.min(100, prev + delta));
+      const actual = state.affection - prev;
+      updateHUD();
+
+      const badge = document.createElement("div");
+      if (delta < 0) {
+        badge.className = "floating-delta-badge loss";
+        badge.textContent = `${delta}% 💔`;
+      } else if (actual > 0) {
+        badge.className = "floating-delta-badge gain";
+        badge.textContent = `+${actual}% 💕`;
+      } else {
+        badge.className = "floating-delta-badge gain";
+        badge.textContent = `MAX 100% 💕`;
+      }
+      hudAffectionPill.appendChild(badge);
+      setTimeout(() => {
+        if (badge.parentNode) badge.parentNode.removeChild(badge);
+      }, 1150);
+    }
+
+    // ==================== TEACHER CAUGHT LOGIC (NO TEST SCORE DEDUCTION!) ====================
+    function handleCaughtByTeacher() {
+      hidePhoneAndPopup(true);
+
+      // Update BOTH warnings and affection atomically before evaluating endings!
+      state.warnings += 1;
+      applyAffectionDelta(-25);
+      sfx.playCaughtAlarm();
+
+      redFlashOverlay.classList.add("flash");
+      gameScreen.classList.remove("shake-active");
+      void gameScreen.offsetWidth;
+      gameScreen.classList.add("shake-active");
+
+      setTimeout(() => {
+        redFlashOverlay.classList.remove("flash");
+      }, 550);
+
+      // Check if this catch triggered a failure ending (including Simultaneous Ending!)
+      if (checkFailureEndings()) {
+        return;
+      }
+
+      if (state.warnings === 1) {
+        showCatchToast(
+          `⚠️ BỊ NHẮC NHỞ LẦN 1/3 (-25% Thiện cảm): Thầy Nghiêm quát "Cất điện thoại ngay!"`,
+          "warn-1",
+          3400
+        );
+      } else if (state.warnings === 2) {
+        showCatchToast(
+          `🚨 BỊ NHẮC NHỞ LẦN 2/3 (-25% Thiện cảm): Thầy Nghiêm cảnh cáo trước cả lớp!`,
+          "warn-2",
+          3400
+        );
+      }
+    }
+
+    // ==================== ATOMIC FAILURE ENDING EVALUATOR ====================
+    function checkFailureEndings() {
+      if (state.isEnding) return true;
+
+      const c = state.crushName;
+
+      // 1. SIMULTANEOUS ENDING: warnings >= 3 AND affection <= 0
+      if (state.warnings >= 3 && state.affection <= 0) {
+        state.isEnding = true;
+        showCatchToast(
+          `💀 BỊ BẮT LẦN 3 & HẾT SẠCH THIỆN CẢM: ${c} vừa dỗi vừa phải viết bản kiểm điểm cùng bạn!`,
+          "warn-3",
+          2400
+        );
+        endGameTimeout = setTimeout(() => {
+          evaluateAndFinish("SIMULTANEOUS");
+        }, 1450);
+        return true;
+      }
+
+      // 2. TEACHER 3 WARNINGS ENDING: warnings >= 3 AND affection > 0
+      if (state.warnings >= 3 && state.affection > 0) {
+        state.isEnding = true;
+        showCatchToast(
+          `📝 BỊ NHẮC NHỞ ĐỦ 3 LẦN: Viết bản kiểm điểm cùng ${c}!`,
+          "warn-3",
+          2400
+        );
+        endGameTimeout = setTimeout(() => {
+          evaluateAndFinish("THREE_WARNINGS");
+        }, 1450);
+        return true;
+      }
+
+      // 3. CRUSH SULKS ENDING: affection <= 0 AND warnings < 3
+      if (state.affection <= 0 && state.warnings < 3) {
+        state.isEnding = true;
+        showCatchToast(
+          `😤 ${c} ĐÃ DỖI BẠN RỒI: Thiện cảm tụt về 0%, ${c} ngừng nhắn tin luôn!`,
+          "warn-2",
+          2400
+        );
+        endGameTimeout = setTimeout(() => {
+          evaluateAndFinish("CRUSH_SULKS");
+        }, 1450);
+        return true;
+      }
+
+      return false;
+    }
+
+    function showCatchToast(message, styleClass, durationMs) {
+      if (toastTimeout) clearTimeout(toastTimeout);
+      catchToast.textContent = message;
+      catchToast.className = styleClass;
+      catchToast.classList.remove("hidden");
+      toastTimeout = setTimeout(() => {
+        catchToast.classList.add("hidden");
+      }, durationMs);
+    }
+
+    // ==================== PROCTOR STATES & PATROL BAR ====================
+    function setProctorState(newState, durationSec) {
+      state.proctorState = newState;
+      state.proctorTimer = durationSec;
+      state.proctorMax = durationSec;
+
+      if (newState === "SAFE") {
+        teacherHairBack.setAttribute("opacity", "1");
+        teacherHairFront.setAttribute("opacity", "0");
+        teacherFace.setAttribute("opacity", "0");
+        teacherTie.setAttribute("opacity", "0");
+        teacherChalkArm.setAttribute("opacity", "1");
+        teacherRuler.setAttribute("opacity", "0.35");
+        teacherVisionCone.setAttribute("opacity", "0");
+        teacherAlertBadge.setAttribute("opacity", "0");
+        teacherBody.classList.add("teacher-writing-anim");
+      } else if (newState === "WARNING") {
+        sfx.playWarningBeep();
+        teacherHairBack.setAttribute("opacity", "0");
+        teacherHairFront.setAttribute("opacity", "1");
+        teacherFace.setAttribute("opacity", "1");
+        teacherTie.setAttribute("opacity", "1");
+        teacherChalkArm.setAttribute("opacity", "0");
+        teacherRuler.setAttribute("opacity", "1");
+        teacherVisionCone.setAttribute("opacity", "0.28");
+        teacherAlertBadge.setAttribute("opacity", "1");
+        teacherBadgeBg.setAttribute("fill", "#f59e0b");
+        teacherBadgeLabel.textContent = "!";
+        teacherBody.classList.remove("teacher-writing-anim");
+      } else if (newState === "DANGER") {
+        teacherHairBack.setAttribute("opacity", "0");
+        teacherHairFront.setAttribute("opacity", "1");
+        teacherFace.setAttribute("opacity", "1");
+        teacherTie.setAttribute("opacity", "1");
+        teacherChalkArm.setAttribute("opacity", "0");
+        teacherRuler.setAttribute("opacity", "1");
+        teacherVisionCone.setAttribute("opacity", "0.95");
+        teacherAlertBadge.setAttribute("opacity", "1");
+        teacherBadgeBg.setAttribute("fill", "#ef4444");
+        teacherBadgeLabel.textContent = "!!";
+        teacherBody.classList.remove("teacher-writing-anim");
+
+        if (state.phoneOpen || state.activePopupIdx !== null) {
+          handleCaughtByTeacher();
+        }
+      }
+
+      updatePatrolBar();
+    }
+
+    function updatePatrolBar() {
+      const pct = Math.max(0, Math.min(100, (state.proctorTimer / state.proctorMax) * 100));
+      const curStr = state.proctorTimer.toFixed(1);
+      const maxStr = state.proctorMax.toFixed(1);
+
+      patrolFill.style.width = `${pct}%`;
+
+      if (state.proctorState === "SAFE") {
+        patrolStatusText.className = "patrol-status-text safe";
+        patrolStatusText.textContent = `🟢 AN TOÀN: ${curStr}s / ${maxStr}s — Thầy đang viết bảng, tranh thủ nhắn ${state.crushName}!`;
+        patrolCountdownNum.style.color = "#34d399";
+        patrolCountdownNum.textContent = `${curStr}s`;
+        patrolFill.className = "patrol-fill safe";
+      } else if (state.proctorState === "WARNING") {
+        patrolStatusText.className = "patrol-status-text warning";
+        patrolStatusText.textContent = `🟡 CẢNH BÁO (!): ${curStr}s / ${maxStr}s — Thầy khựng lại sắp quay xuống!`;
+        patrolCountdownNum.style.color = "#fbbf24";
+        patrolCountdownNum.textContent = `${curStr}s`;
+        patrolFill.className = "patrol-fill warning";
+      } else {
+        patrolStatusText.className = "patrol-status-text danger";
+        patrolStatusText.textContent = `🔴 NGUY HIỂM (!!): ${curStr}s / ${maxStr}s — THẦY ĐANG QUÉT LỚP!`;
+        patrolCountdownNum.style.color = "#f87171";
+        patrolCountdownNum.textContent = `${curStr}s`;
+        patrolFill.className = "patrol-fill danger";
+      }
+    }
+
+    function updateCrushWaitBars() {
+      const pct = Math.max(0, Math.min(100, (state.crushWaitTimer / CRUSH_WAIT_MAX) * 100));
+      const secStr = state.crushWaitTimer.toFixed(1);
+      const isUrgent = state.crushWaitTimer <= 6.0;
+
+      miniWaitSec.textContent = `${secStr}s / ${CRUSH_WAIT_MAX.toFixed(0)}s`;
+      phoneWaitSec.textContent = `${secStr}s / ${CRUSH_WAIT_MAX.toFixed(0)}s`;
+
+      miniWaitFill.style.width = `${pct}%`;
+      phoneWaitFill.style.width = `${pct}%`;
+
+      if (isUrgent) {
+        miniWaitFill.classList.add("urgent");
+        phoneWaitFill.classList.add("urgent");
+        miniWaitSec.style.color = "#fb7185";
+        phoneWaitSec.style.color = "#fb7185";
+      } else {
+        miniWaitFill.classList.remove("urgent");
+        phoneWaitFill.classList.remove("urgent");
+        miniWaitSec.style.color = "#fde047";
+        phoneWaitSec.style.color = "#fde047";
+      }
+    }
+
+    // ==================== TALL SMARTPHONE & QUESTION POP-UP LOGIC ====================
+    function togglePhone() {
+      if (state.phoneOpen) {
+        hidePhoneAndPopup(false);
+      } else {
+        setPhoneOpen(true);
+      }
+    }
+
+    function setPhoneOpen(open, silent = false) {
+      state.phoneOpen = open;
+      if (!silent) sfx.playChatPop(false);
+
+      if (open) {
+        centeredHiddenDock.classList.add("dock-hidden");
+        smartphoneTall.classList.remove("phone-hidden");
+        smartphoneTall.classList.add("phone-visible");
+
+        if (state.isPlaying && !state.isEnding && state.proctorState === "DANGER") {
+          handleCaughtByTeacher();
+        }
+      } else {
+        smartphoneTall.classList.remove("phone-visible");
+        smartphoneTall.classList.add("phone-hidden");
+        centeredHiddenDock.classList.remove("dock-hidden");
+      }
+    }
+
+    function hidePhoneAndPopup(silent = false) {
+      closeQuestionPopup();
+      setPhoneOpen(false, silent);
+    }
+
+    function renderPhoneQuestionGrid() {
+      phoneQGrid.innerHTML = "";
+      QUESTIONS.forEach((q, idx) => {
+        const chosen = state.userAnswers[idx];
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = `btn-phone-q ${chosen ? "done" : ""}`;
+        btn.disabled = Boolean(chosen);
+        btn.textContent = chosen ? `Câu ${q.id} ✓ ${chosen}` : `Câu ${q.id}`;
+        if (!chosen) {
+          btn.addEventListener("click", () => openQuestionPopup(idx));
+        }
+        phoneQGrid.appendChild(btn);
+      });
+    }
+
+    function openQuestionPopup(idx) {
+      if (!state.isPlaying || state.isEnding) return;
+      if (state.userAnswers[idx]) return;
+      if (state.proctorState === "DANGER") {
+        handleCaughtByTeacher();
+        return;
+      }
+
+      state.activePopupIdx = idx;
+      const q = QUESTIONS[idx];
+
+      popupQTitle.textContent = `Câu ${q.id} (${q.pointsLabel})`;
+      popupQSub.textContent = `Chọn 1 đáp án để nhắn cho ${state.crushName} 💕`;
+      popupQText.textContent = q.question;
+      popupChoicesList.innerHTML = "";
+
+      q.options.forEach((opt) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn-choice-card";
+        btn.innerHTML = `
+          <span class="choice-letter-badge">${opt.key}</span>
+          <span>${escapeHtml(opt.text)}</span>
+        `;
+        btn.addEventListener("click", () => {
+          selectAndSendAnswer(idx, opt);
+        });
+        popupChoicesList.appendChild(btn);
+      });
+
+      questionPopup.classList.remove("hidden");
+    }
+
+    function closeQuestionPopup() {
+      state.activePopupIdx = null;
+      questionPopup.classList.add("hidden");
+    }
+
+    function selectAndSendAnswer(qIdx, selectedOption) {
+      if (!state.isPlaying || state.isEnding) return;
+
+      const q = QUESTIONS[qIdx];
+      state.userAnswers[qIdx] = selectedOption.key;
+
+      // 1. Close pop-up & play answer-sent chime
+      closeQuestionPopup();
+      sfx.playAnswerSentChime();
+
+      // 2. Reset 20.0s Crush Waiting Bar to 100% full
+      state.crushWaitTimer = CRUSH_WAIT_MAX;
+      updateCrushWaitBars();
+
+      // 3. Apply +5% if correct, -5% if wrong
+      const isCorrect = selectedOption.key === q.correct;
+      applyAffectionDelta(isCorrect ? +5 : -5);
+
+      // 4. Append player's answer message & Crush's reply in chat
+      const c = state.crushName;
+      const playerBubble = document.createElement("div");
+      playerBubble.className = "msg-player";
+      playerBubble.textContent = `Câu ${q.id} cậu khoanh ${selectedOption.key} nha: "${selectedOption.text}" 😎`;
+      chatHistory.appendChild(playerBubble);
+
+      const crushBubble = document.createElement("div");
+      crushBubble.className = "msg-crush";
+      crushBubble.innerHTML = `
+        <b style="color:#f472b6;display:block;margin-bottom:2px;">${escapeHtml(c)} 💕:</b>
+        Nhận được rồi, cảm ơn ${escapeHtml(state.playerName)} nhiều lắm 💕 Mình khoanh câu ${q.id} là <b>${selectedOption.key}</b> liền đây!
+      `;
+      chatHistory.appendChild(crushBubble);
+      chatHistory.scrollTop = chatHistory.scrollHeight;
+
+      renderPhoneQuestionGrid();
+      updateHUD();
+
+      // Check if wrong answer dropped affection to 0%
+      if (checkFailureEndings()) {
+        return;
+      }
+
+      // 5. Auto-complete game once all 7 questions are sent!
+      const answeredCount = state.userAnswers.filter(Boolean).length;
+      if (answeredCount === QUESTIONS.length) {
+        state.isEnding = true;
+        endGameTimeout = setTimeout(() => {
+          evaluateAndFinish("COMPLETED_ALL");
+        }, 850);
+      }
+    }
+
+    // ==================== HUD UPDATE ====================
+    function updateHUD() {
+      const mins = Math.floor(Math.ceil(state.timeLeft) / 60);
+      const secs = Math.ceil(state.timeLeft) % 60;
+      hudTimer.textContent = `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+      if (state.timeLeft <= 20) {
+        hudTimer.classList.add("urgent");
+      } else {
+        hudTimer.classList.remove("urgent");
+      }
+
+      const answeredCount = state.userAnswers.filter(Boolean).length;
+      hudAnsweredCount.textContent = `${answeredCount}/${QUESTIONS.length}`;
+      phoneProgressLabel.textContent = `${answeredCount}/${QUESTIONS.length}`;
+
+      hudAffectionVal.textContent = `${state.affection}%`;
+      hudAffectionFill.style.width = `${state.affection}%`;
+
+      hudStrikesText.textContent = `${state.warnings}/3`;
+      hudStrikesText.style.color = state.warnings > 0 ? "#fda4af" : "#ffffff";
+    }
+
+    // ==================== ENDINGS & POST-GAME REVIEW SCREEN ====================
+    function evaluateAndFinish(triggerReason) {
+      if (!state.isPlaying) return;
+      state.isPlaying = false;
+      state.isEnding = true;
+
+      if (mainLoopTimer) clearInterval(mainLoopTimer);
+      if (toastTimeout) clearTimeout(toastTimeout);
+      if (endGameTimeout) clearTimeout(endGameTimeout);
+      catchToast.classList.add("hidden");
+      hidePhoneAndPopup(true);
+
+      const p = state.playerName;
+      const c = state.crushName;
+      const cUpper = c.toUpperCase();
+
+      // Calculate Crush's Exam Score purely from the 7 questions (NO deduction from teacher warnings!)
+      let examScore = 0;
+      QUESTIONS.forEach((q, idx) => {
+        if (state.userAnswers[idx] === q.correct) {
+          examScore += q.points;
+        }
+      });
+
+      document.getElementById("res-score-label").textContent = `ĐIỂM BÀI KIỂM TRA CỦA ${cUpper}`;
+      document.getElementById("res-exam-score").textContent = `${examScore.toFixed(2)} / 10.0`;
+      document.getElementById("res-affection-label").textContent = `THIỆN CẢM CỦA ${cUpper}`;
+      document.getElementById("res-affection-score").textContent = `${state.affection}%`;
+      document.getElementById("res-caught-count").textContent = `${state.warnings} / 3 lần`;
+
+      const heroEmoji = document.getElementById("res-hero-emoji");
+      const headlineEl = document.getElementById("res-ending-headline");
+      const commBody = document.getElementById("res-commentary-body");
+
+      // Evaluate exact priority order of endings:
+      if (state.warnings >= 3 && state.affection <= 0) {
+        // 1. SIMULTANEOUS ENDING (warnings >= 3 AND affection <= 0)
+        heroEmoji.textContent = "💀";
+        headlineEl.textContent = `${cUpper} VỪA DỖI VỪA PHẢI VIẾT BẢN KIỂM ĐIỂM CÙNG NHAU! 💀📝💔`;
+        commBody.textContent =
+          `Cú đúp định mệnh: bạn vừa bị Thầy Nghiêm bắt đủ 3 lần vừa khiến thiện cảm của ${c} tụt về 0%! Hai đứa phải ngồi cạnh nhau viết bản tự kiểm điểm trong bầu không khí im lặng đến ngượng ngùng.`;
+      } else if (state.affection <= 0 && state.warnings < 3) {
+        // 2. CRUSH SULKS ENDING (affection <= 0 AND warnings < 3)
+        heroEmoji.textContent = "😤";
+        headlineEl.textContent = `${cUpper} ĐÃ DỖI BẠN RỒI! 😤💔`;
+        commBody.textContent =
+          `${c} đã giận dỗi vì bạn để người ấy chờ quá lâu hoặc gửi sai đáp án nên đã ngừng nhắn tin với bạn luôn! Tuy nhiên, nhờ né Thầy Nghiêm khéo (mới bị nhắc ${state.warnings}/3 lần) nên bạn KHÔNG phải viết bản tự kiểm điểm!`;
+      } else if (state.warnings >= 3 && state.affection > 0) {
+        // 3. TEACHER 3 WARNINGS ENDING (warnings >= 3 AND affection > 0)
+        heroEmoji.textContent = "📝";
+        headlineEl.textContent = `VIẾT BẢN KIỂM ĐIỂM CÙNG ${cUpper}! 📝😅`;
+        commBody.textContent =
+          `Bạn đã bị Thầy Nghiêm bắt gặp đủ 3 lần! Cả ${p} và ${c} cùng bị gọi lên viết bản tự kiểm điểm chung — dù hơi toang nhưng ít nhất cũng có một kỷ niệm khó quên bên ${c}!`;
+      } else {
+        // 4. NORMAL COMPLETION (all 7 questions sent or class timer ended before failing)
+        sfx.playVictory();
+        if (examScore >= 10.0 && state.affection >= 90) {
+          heroEmoji.textContent = "👑";
+          headlineEl.textContent = `HỌC BÁ QUỐC DÂN – ${cUpper} ĐỔ ĐỨ ĐỪ! 👑💕`;
+          commBody.textContent =
+            `10.00 điểm tuyệt đối và ${state.affection}% thiện cảm! ${c} nhắn tin rủ ${p} đi uống trà sữa full topping ngay sau tiếng trống tan học!`;
+        } else if (examScore >= 8.0 && state.affection >= 65) {
+          heroEmoji.textContent = "😎";
+          headlineEl.textContent = `CHIẾN THẦN THÔNG TƯ 19 – GHI ĐIỂM TUYỆT ĐỐI VỚI ${cUpper}! 😎✨`;
+          commBody.textContent =
+            `Vừa né Thầy Nghiêm siêu mượt vừa giúp ${c} đạt ${examScore.toFixed(2)}/10.0 điểm, tối nay chắc chắn nhận được tin nhắn cảm ơn dài cả trang!`;
+        } else if (examScore >= 5.0) {
+          heroEmoji.textContent = "😅";
+          headlineEl.textContent = `QUA ẢI TRONG GANG TẤC CÙNG ${cUpper}! 😅💦`;
+          commBody.textContent =
+            `Thót tim từng giây với nhịp tuần tra của Thầy Nghiêm, may mà ${c} vẫn qua bài kiểm tra an toàn với ${examScore.toFixed(2)}/10.0 điểm!`;
+        } else {
+          heroEmoji.textContent = "📡";
+          headlineEl.textContent = `TÍN HIỆU FRIENDZONE ĐANG TỚI GẦN... 💔📡`;
+          commBody.textContent =
+            `Đã gửi hết đáp án nhưng điểm bài kiểm tra mới đạt ${examScore.toFixed(2)}/10.0. Tối nay ${p} nhớ ôn kỹ lại Thông tư 19/2025/TT-BGDĐT để kèm riêng cho ${c} nhé!`;
+        }
+      }
+
+      // Render detailed legal review for all 7 questions
+      resReviewList.classList.remove("hidden");
+      reviewToggleIcon.textContent = "Thu gọn ▲";
+      resReviewList.innerHTML = "";
+
+      QUESTIONS.forEach((q, idx) => {
+        const userKey = state.userAnswers[idx];
+        const isCorrect = userKey === q.correct;
+        const correctOpt = q.options.find((o) => o.key === q.correct);
+        const userOpt = q.options.find((o) => o.key === userKey);
+
+        const card = document.createElement("div");
+        card.className = `review-card ${isCorrect ? "correct" : "wrong"}`;
+        card.innerHTML = `
+          <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;">
+            <b style="font-size:14.5px;color:#0f172a;">Câu ${q.id} (${q.pointsLabel})</b>
+            <span style="padding:3px 10px;border-radius:999px;font-size:12px;font-weight:800;background:${isCorrect ? "#d1fae5" : "#ffe4e6"};color:${isCorrect ? "#065f46" : "#9f1239"};">
+              ${isCorrect ? `✅ Chính xác (+${q.pointsLabel})` : "❌ Chưa chính xác (0đ)"}
+            </span>
+          </div>
+          <div style="font-size:13.5px;color:#1e293b;line-height:1.48;white-space:pre-line;margin-bottom:10px;">${escapeHtml(q.question)}</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px;font-size:12.5px;margin-bottom:10px;">
+            <div style="padding:9px 11px;border-radius:10px;background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46;">
+              <b>Đáp án đúng (${q.correct}):</b> ${escapeHtml(correctOpt.text)}
+            </div>
+            <div style="padding:9px 11px;border-radius:10px;background:${isCorrect ? "#f8fafc" : "#fff1f2"};border:1px solid ${isCorrect ? "#cbd5e1" : "#fecdd3"};color:${isCorrect ? "#334155" : "#9f1239"};">
+              <b>Đáp án bạn chỉ cho ${escapeHtml(c)}:</b> ${userOpt ? `(${userOpt.key}) ${escapeHtml(userOpt.text)}` : "Chưa gửi đáp án"}
+            </div>
+          </div>
+          <div style="background:#fffbeb;border-left:4px solid #f59e0b;padding:9px 12px;border-radius:0 10px 10px 0;font-size:12.5px;color:#334155;line-height:1.45;">
+            <b style="color:#92400e;">💡 Giải thích (Thông tư 19/2025/TT-BGDĐT): </b>${escapeHtml(q.explanation)}
+          </div>
+        `;
+        resReviewList.appendChild(card);
+      });
+
+      gameScreen.classList.add("hidden");
+      resultScreen.classList.remove("hidden");
+      resultScreen.scrollTop = 0;
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+  </script>
+</body>
+</html>
